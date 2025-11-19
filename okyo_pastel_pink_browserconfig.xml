@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+  <msapplication>
+    <tile>
+      <square150x150logo src="okyo_pastel_pink_144.png"/>
+      <TileColor>#FF93A7</TileColor>
+    </tile>
+  </msapplication>
+</browserconfig>

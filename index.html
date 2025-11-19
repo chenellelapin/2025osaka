@@ -5,81 +5,116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2025 大阪京都：旅行日程表、推薦景點/餐廳名單</title>
 <style>
-:root { --primary:#ff93a7; --primary-soft:#ffe6ec; --accent:#7cd2c6; --bg:#fffafc; --text-main:#333; --text-soft:#5f646a; --border-soft:#f2dbe2; --radius-large:18px; --shadow-soft:0 6px 18px rgba(255,147,167,.12); }
+:root {
+  --primary:#FF93A7;
+  --primary-soft:#FFE6EC;
+  --accent:#7CD2C6;
+  --bg:#FFFAFC;
+  --text-main:#333333;
+  --text-soft:#5f646a;
+  --border-soft:#F2DBE2;
+  --radius-large:18px;
+  --shadow-soft:0 6px 18px rgba(255,147,167,.12);
+}
+* { box-sizing: border-box; }
 body { font-size:17px; line-height:1.8; background:var(--bg); color:var(--text-main); font-family: system-ui, -apple-system, Segoe UI, sans-serif; margin:0; }
+.page { max-width:1080px; margin:0 auto; padding:16px 16px 40px; }
+header { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; padding:16px 18px; background:#fff; border-radius:22px; box-shadow: var(--shadow-soft); position:sticky; top:0; z-index:20; backdrop-filter:blur(10px); }
+.title { font-size:1.25rem; font-weight:700; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.title-tag { font-size:0.8rem; padding:2px 10px; border-radius:999px; background:var(--primary-soft); color: var(--primary); }
+.subtitle { font-size:0.9rem; color:var(--text-soft); display:flex; flex-wrap:wrap; gap:6px 12px; align-items:center; }
+.subtitle span { display:inline-flex; align-items:center; gap:6px; }
+.pill { background:#f4f6f8; padding:2px 10px; border-radius:999px; font-size:0.8rem; }
+.tab-bar { margin-top:8px; display:grid; grid-template-columns: repeat(3,1fr); gap:8px; padding:4px; background:#fafafa; border-radius:999px; }
+.tab-button { border:none; border-radius:999px; padding:10px 6px; font-size:0.95rem; font-weight:600; background:transparent; color:var(--text-soft); display:flex; align-items:center; justify-content:center; gap:6px; cursor:pointer; }
 .tab-button.active { background:#fff; color: var(--primary); box-shadow: var(--shadow-soft); border:1px solid var(--primary-soft); }
-.day-card { border:1px solid var(--primary-soft); background:#fffefe; }
-.day-header:hover { background:#fff7fb; }
-.day-badge { background: var(--primary-soft); color: var(--primary); }
-.timeline { border:1px dashed #ffd0dd; background:#fff5f9; }
-.time-cell { color: var(--accent); }
-.mini-card { border:1px solid #ffd0dd; background:#fff8fb; }
-.mini-chip, .tag-chip { border: 1px solid #ffc1d2; background: #fff; }
-.area-block { border:1px solid #f6dbe4; background:#fffefe; }
-.side-note { border:1px dashed #ffd0dd; background:#fff7fb; }
-.stay-pill { background:#eef8f6; color:#2f726c; }
-input#keywordInput { background:#fff; }
-.coupon-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-top:8px; }
-.coupon-card { border-radius: 16px; border:1px solid #ffd0dd; background:#fff8fb; padding:10px; display:flex; gap:10px; align-items:center; }
+.section { background:#fff; border-radius:22px; box-shadow: var(--shadow-soft); padding:16px 16px 20px; margin-bottom:18px; }
+.section-title { font-size:1rem; font-weight:700; display:flex; align-items:center; gap:6px; }
+.section-caption { font-size:0.85rem; color:var(--text-soft); }
+.day-list { display:flex; flex-direction:column; gap:10px; }
+.day-card { border:1px solid var(--border-soft); background:#fff; border-radius:18px; overflow:hidden; }
+.day-header { padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:pointer; touch-action:manipulation; }
+.day-header:hover { background:#FFF7FB; }
+.day-left { display:flex; flex-direction:column; gap:2px; min-width:0; }
+.day-line1 { font-size:0.95rem; font-weight:600; display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
+.day-badge { background: var(--primary-soft); color: var(--primary); padding:2px 8px; border-radius:999px; }
+.day-date { font-size:0.9rem; }
+.day-line2 { font-size:0.85rem; color:var(--text-soft); display:flex; flex-wrap:wrap; gap:6px; }
+.day-tag { background:#f5f5f5; padding:2px 8px; border-radius:999px; }
+.day-right { display:flex; align-items:center; gap:8px; }
+.stay-pill { background:#eef8f6; color:#2f726c; padding:4px 8px; border-radius:999px; font-size:0.85rem; }
+.chevron { font-size:1.1rem; transition: transform .2s ease; }
+.day-card.expanded .chevron { transform: rotate(90deg); }
+.day-details { display:none; border-top:1px dashed var(--border-soft); padding:10px 14px 14px; background:#FFFDFB; font-size:0.95rem; }
+.day-card.expanded .day-details { display:block; }
+.timeline { border:1px dashed #ffd0dd; background:#FFF5F9; border-radius:14px; padding:8px 10px; }
+.timeline-row { display:grid; grid-template-columns:80px minmax(0,1fr); gap:6px 12px; padding:6px 0; border-bottom:1px solid rgba(0,0,0,0.04); }
+.timeline-row:last-child { border-bottom:none; }
+.time-cell { color: var(--accent); font-weight:600; }
+.plan-main { font-size:1rem; }
+.plan-note { font-size:.9rem; color:var(--text-soft); margin-top:2px; }
+.places-mini-list { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:10px; margin-top:6px; }
+.mini-card { border:1px solid #ffd0dd; background:#FFF8FB; padding:10px; border-radius:14px; }
+.mini-name { font-size:1rem; font-weight:700; margin-bottom:2px; }
+.mini-meta { font-size:.9rem; color:var(--text-soft); }
+.mini-hint { font-size:.85rem; color:#9a9ea3; }
+.search-bar { margin-top:6px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.search-input-wrapper { position:relative; flex:1 1 260px; }
+.search-input-wrapper input { width:100%; padding:12px 40px 12px 38px; border-radius:999px; border:1px solid var(--border-soft); font-size:1rem; outline:none; background:#fff; }
+.search-input-wrapper .icon-left { position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:1rem; color:var(--text-soft); }
+.search-input-wrapper .clear-btn { position:absolute; right:12px; top:50%; transform:translateY(-50%); border:none; background:transparent; font-size:1rem; cursor:pointer; display:none; color:var(--text-soft); }
+.search-input-wrapper.has-text .clear-btn { display:block; }
+.area-list { margin-top:12px; display:flex; flex-direction:column; gap:12px; }
+.area-header { display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:6px; }
+.area-name { font-size:1rem; font-weight:700; display:flex; align-items:center; gap:6px; }
+.area-tag { font-size:.9rem; padding:2px 8px; border-radius:999px; background:#f5f5f5; }
+.area-count { font-size:.9rem; color:var(--text-soft); }
+.place-card { border-radius:14px; border:1px dashed #ffe0ef; padding:8px 10px; margin-top:6px; background:#FFFAFC; font-size:1rem; }
+.place-name { font-weight:700; }
+.place-meta { font-size:.92rem; color:var(--text-soft); margin-top:2px; }
+.place-tags { margin-top:6px; display:flex; flex-wrap:wrap; gap:6px; }
+.tag-chip { font-size:.85rem; padding:3px 9px; border-radius:999px; background:#fff; border:1px solid #ffd2e1; }
+.no-result { font-size:.95rem; color:var(--text-soft); margin-top:10px; }
+.coupon-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-top:8px; }
+.coupon-card { border-radius: 16px; border:1px solid #ffd0dd; background:#FFF8FB; padding:12px; display:flex; gap:12px; align-items:center; }
 .coupon-thumb { width:56px; height:56px; border-radius:12px; border:1px solid #ffd0dd; display:flex; align-items:center; justify-content:center; font-size:28px; background:#fff; }
 .coupon-body { flex:1; min-width:0; }
 .coupon-title { font-weight:700; }
-.coupon-desc { font-size:0.9rem; color:var(--text-soft); }
+.coupon-desc { font-size:0.95rem; color:var(--text-soft); }
 .coupon-link { font-weight:700; color: var(--primary); text-decoration:none; }
-.page { max-width:1080px; margin:0 auto; padding:16px 16px 40px; }
-header { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; padding:16px 18px; background:#fff; border-radius:18px; box-shadow: var(--shadow-soft); position:sticky; top:0; z-index:20; backdrop-filter:blur(10px); }
-.title { font-size:1.25rem; font-weight:700; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-.title-tag { font-size:0.8rem; padding:2px 10px; border-radius:999px; background:var(--primary-soft); color:var(--primary); }
-.subtitle { font-size:0.9rem; color:var(--text-soft); display:flex; flex-wrap:wrap; gap:6px 12px; align-items:center; }
-.subtitle span { display:inline-flex; align-items:center; gap:6px; }
-.pill { background:#f5f5f5; padding:2px 10px; border-radius:999px; font-size:0.8rem; }
-.tab-bar { margin-top:8px; display:grid; grid-template-columns: repeat(3,1fr); gap:8px; padding:4px; background:#fafafa; border-radius:999px; }
-.tab-button { border:none; border-radius:999px; padding:10px 6px; font-size:0.95rem; font-weight:600; background:transparent; color:var(--text-soft); display:flex; align-items:center; justify-content:center; gap:6px; cursor:pointer; }
-.section { background:#fff; border-radius:20px; box-shadow: var(--shadow-soft); padding:14px 14px 18px; margin-bottom:18px; }
-.section-title { font-size:1rem; font-weight:700; display:flex; align-items:center; gap:6px; }
-.section-caption { font-size:0.8rem; color:var(--text-soft); }
-.day-list { display:flex; flex-direction:column; gap:8px; }
-.day-header { padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:pointer; touch-action:manipulation; }
-.day-left { display:flex; flex-direction:column; gap:2px; min-width:0; }
-.day-line1 { font-size:0.95rem; font-weight:600; display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
-.day-date { font-size:0.9rem; }
-.day-line2 { font-size:0.85rem; color:var(--text-soft); display:flex; flex-wrap:wrap; gap:6px; }
-.day-tag { background:#f7f7f7; padding:2px 8px; border-radius:999px; }
-.day-right { display:flex; align-items:center; gap:8px; }
-.chevron { font-size:1.1rem; transition: transform .2s ease; }
-.day-card.expanded .chevron { transform: rotate(90deg); }
-.day-details { display:none; border-top:1px dashed var(--border-soft); padding:8px 12px 12px; background:#fffdfb; font-size:0.9rem; }
-.day-card.expanded .day-details { display:block; }
-.timeline-row { display:grid; grid-template-columns:70px minmax(0,1fr); gap:4px 10px; padding:4px 0; border-bottom:1px solid rgba(0,0,0,0.03); }
-.timeline-row:last-child { border-bottom:none; }
-.plan-main { font-size:.95rem; }
-.plan-note { font-size:.82rem; color:var(--text-soft); margin-top:2px; }
-.places-mini-list { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:8px; margin-top:4px; }
-.mini-name { font-size:.95rem; font-weight:700; margin-bottom:2px; }
-.mini-meta { font-size:.82rem; color:var(--text-soft); }
-.mini-hint { font-size:.8rem; color:#9a9ea3; }
-.search-bar { margin-top:4px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-.search-input-wrapper { position:relative; flex:1 1 220px; }
-.search-input-wrapper input { width:100%; padding:10px 36px 10px 34px; border-radius:999px; border:1px solid var(--border-soft); font-size:1rem; outline:none; }
-.search-input-wrapper .icon-left { position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:1rem; color:var(--text-soft); }
-.search-input-wrapper .clear-btn { position:absolute; right:10px; top:50%; transform:translateY(-50%); border:none; background:transparent; font-size:1rem; cursor:pointer; display:none; color:var(--text-soft); }
-.search-input-wrapper.has-text .clear-btn { display:block; }
-.area-list { margin-top:10px; display:flex; flex-direction:column; gap:10px; }
-.area-header { display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:6px; }
-.area-name { font-size:1rem; font-weight:700; display:flex; align-items:center; gap:6px; }
-.area-tag { font-size:.82rem; padding:2px 8px; border-radius:999px; background:#f5f5f5; }
-.area-count { font-size:.82rem; color:var(--text-soft); }
-.place-card { border-radius:12px; border:1px dashed #ffe0ef; padding:6px 8px; margin-top:6px; background:#fffafc; font-size:.95rem; }
-.place-name { font-weight:700; }
-.place-meta { font-size:.85rem; color:var(--text-soft); margin-top:2px; }
-.place-tags { margin-top:4px; display:flex; flex-wrap:wrap; gap:4px; }
-.tag-chip { font-size:.78rem; padding:2px 7px; border-radius:999px; background:#fff; border:1px solid #ffd2e1; }
-.no-result { font-size:.9rem; color:var(--text-soft); margin-top:10px; }
-.side-note { position:sticky; top:140px; align-self:flex-start; padding:12px 14px; background:#fffefb; border-radius:18px; border:1px dashed #ffd0dd; box-shadow:var(--shadow-soft); font-size:.85rem; }
+.side-note { position:sticky; top:140px; align-self:flex-start; padding:14px 16px; background:#fff; border-radius:22px; border:1px dashed #ffd0dd; box-shadow: var(--shadow-soft); font-size:.92rem; }
 .side-note-title { font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:4px; }
 .side-note-list { margin:4px 0 0; padding-left:18px; }
-@media (max-width:600px){ header{padding:12px 14px;} .title{font-size:1.1rem;} .subtitle{font-size:.85rem;} .section{padding:12px 12px 16px;} .day-header{padding:9px 10px;} .timeline-row{grid-template-columns:60px minmax(0,1fr);} .side-note{position:static; margin-top:10px;} }
+@media (max-width:600px){
+  header{padding:12px 14px;}
+  .title{font-size:1.1rem;}
+  .subtitle{font-size:.9rem;}
+  .section{padding:14px 14px 18px;}
+  .day-header{padding:10px 12px;}
+  .timeline-row{grid-template-columns:70px minmax(0,1fr);}
+  .side-note{position:static; margin-top:10px;}
+}
 </style>
+  <!-- SEO & Social (Pink theme) -->
+  <meta name="title" content="2025 大阪京都：旅行日程表、推薦景點/餐廳名單">
+  <meta name="description" content="家人同行也好用的旅遊網頁：依日期展開行程、依地區瀏覽所有景點餐廳、支援關鍵字搜尋、常用購物優惠券連結。">
+  <meta name="theme-color" content="#FF93A7">
+  <meta name="color-scheme" content="light">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="2025 大阪京都：旅行日程表、推薦景點/餐廳名單">
+  <meta property="og:description" content="依日期＋依地區雙視角，手機友善的旅行頁面。">
+  <meta property="og:image" content="okyo_pastel_pink_512.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="2025 大阪京都：旅行日程表、推薦景點/餐廳名單">
+  <meta name="twitter:description" content="依日期＋依地區雙視角，手機友善，含購物優惠券連結。">
+  <meta name="twitter:image" content="okyo_pastel_pink_512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="okyo_pastel_pink_180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="okyo_pastel_pink_32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="okyo_pastel_pink_16.png">
+  <link rel="icon" href="okyo_pastel_pink.ico">
+  <link rel="manifest" href="okyo_pastel_pink_site.webmanifest">
+  <meta name="msapplication-TileColor" content="#FF93A7">
+  <meta name="msapplication-config" content="okyo_pastel_pink_browserconfig.xml">
 </head>
 <body>
 <div class="page">
@@ -105,7 +140,7 @@ header { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; paddi
 <div class="section-header">
 <div>
 <div class="section-title"><span class="emoji">📅</span><span>依日期查看行程</span></div>
-<div class="section-caption">點選每一天，可展開當日詳細行程＋附近推薦景點／餐廳（每個地點下方含「特色＋簡介」）</div>
+<div class="section-caption">點選每一天，可展開當日詳細行程＋附近推薦景點／餐廳（每個地點下方含「特色＋簡介」）。</div>
 </div>
 </div>
 <div class="day-list">
@@ -1803,109 +1838,99 @@ header { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; paddi
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const sections = document.querySelectorAll('[data-section]');
-    function showTab(tab) {
-        sections.forEach(sec => { sec.style.display = (sec.getAttribute('data-section') === tab) ? '' : 'none'; });
-        tabButtons.forEach(b => {
-            const active = b.getAttribute('data-tab') === tab;
-            b.classList.toggle('active', active);
-            b.setAttribute('aria-selected', active ? 'true' : 'false');
-        });
-    }
-    tabButtons.forEach(btn => { btn.addEventListener('click', () => showTab(btn.getAttribute('data-tab'))); });
-
-    // Day expand/collapse
-    const dayCards = document.querySelectorAll('.day-card');
-    dayCards.forEach(card => {
-        const header = card.querySelector('.day-header');
-        header.addEventListener('click', () => {
-            const expanded = card.classList.contains('expanded');
-            dayCards.forEach(c => c.classList.remove('expanded'));
-            if (!expanded) { card.classList.add('expanded'); card.scrollIntoView({behavior:'smooth', block:'center'}); }
-        });
-        header.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); header.click(); } });
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const sections = document.querySelectorAll('[data-section]');
+  function showTab(tab) {
+    sections.forEach(sec => { sec.style.display = (sec.getAttribute('data-section') === tab) ? '' : 'none'; });
+    tabButtons.forEach(b => {
+      const active = b.getAttribute('data-tab') === tab;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-selected', active ? 'true' : 'false');
     });
+  }
+  tabButtons.forEach(btn => { btn.addEventListener('click', () => showTab(btn.getAttribute('data-tab'))); });
 
-    // Area search
-    const areaList = document.getElementById('areaList');
-    const keywordInput = document.getElementById('keywordInput');
-    const noResult = document.getElementById('noResult');
-    const searchWrapper = document.getElementById('search-wrapper');
-    const clearBtn = searchWrapper ? searchWrapper.querySelector('.clear-btn') : null;
-    function applySearch() {
-        if (!areaList) return;
-        const q = (keywordInput?.value || '').trim();
-        if (searchWrapper) searchWrapper.classList.toggle('has-text', q.length > 0);
-        let anyVisible = false;
-        const areaBlocks = areaList.querySelectorAll('.area-block');
-        areaBlocks.forEach(area => {
-            let areaVisible = false;
-            const places = area.querySelectorAll('.place-card');
-            places.forEach(place => {
-                const text = place.getAttribute('data-search') || '';
-                if (!q || text.indexOf(q) !== -1) {
-                    place.style.display = '';
-                    areaVisible = true;
-                    anyVisible = true;
-                } else { place.style.display = 'none'; }
-            });
-            area.style.display = areaVisible ? '' : 'none';
-        });
-        if (noResult) noResult.style.display = anyVisible ? 'none' : '';
-    }
-    if (keywordInput) keywordInput.addEventListener('input', applySearch);
-    if (clearBtn) clearBtn.addEventListener('click', () => { keywordInput.value=''; applySearch(); keywordInput.focus(); });
+  const dayCards = document.querySelectorAll('.day-card');
+  dayCards.forEach(card => {
+    const header = card.querySelector('.day-header');
+    header.addEventListener('click', () => {
+      const expanded = card.classList.contains('expanded');
+      dayCards.forEach(c => c.classList.remove('expanded'));
+      if (!expanded) { card.classList.add('expanded'); card.scrollIntoView({behavior:'smooth', block:'center'}); }
+    });
+    header.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); header.click(); } });
+  });
 
-    // Wikipedia summary fetcher with robust fallback
-    function tryFetchSummary(title, lang) {
-        const url = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
-        return fetch(url).then(r => r.ok ? r.json() : null).catch(() => null);
-    }
-    function isAttraction(name) { return /(寺|神社|大社|城|塔|堂|宮|寺院)/.test(name); }
-    async function hydrateSummaries() {
-        const targets = document.querySelectorAll('[data-summary-for]');
-        for (const el of targets) {
-            const name = el.getAttribute('data-summary-for');
-            if (!name || el.getAttribute('data-filled') === '1') continue;
+  const areaList = document.getElementById('areaList');
+  const keywordInput = document.getElementById('keywordInput');
+  const noResult = document.getElementById('noResult');
+  const searchWrapper = document.getElementById('search-wrapper');
+  const clearBtn = searchWrapper ? searchWrapper.querySelector('.clear-btn') : null;
+  function applySearch() {
+    if (!areaList) return;
+    const q = (keywordInput?.value || '').trim();
+    if (searchWrapper) searchWrapper.classList.toggle('has-text', q.length > 0);
+    let anyVisible = false;
+    const areaBlocks = areaList.querySelectorAll('.area-block');
+    areaBlocks.forEach(area => {
+      let areaVisible = false;
+      const places = area.querySelectorAll('.place-card');
+      places.forEach(place => {
+        const text = place.getAttribute('data-search') || '';
+        if (!q || text.indexOf(q) !== -1) {
+          place.style.display = '';
+          areaVisible = true;
+          anyVisible = true;
+        } else { place.style.display = 'none'; }
+      });
+      area.style.display = areaVisible ? '' : 'none';
+    });
+    if (noResult) noResult.style.display = anyVisible ? 'none' : '';
+  }
+  if (keywordInput) keywordInput.addEventListener('input', applySearch);
+  if (clearBtn) clearBtn.addEventListener('click', () => { keywordInput.value=''; applySearch(); keywordInput.focus(); });
 
-            // Set a timeout fallback (6s) to avoid '載入簡介中…' sticking forever
-            let resolved = false;
-            const timer = setTimeout(() => {
-                if (!resolved) {
-                    el.innerHTML = '<strong>簡介：</strong>（暫時無法取得，建議以頁面上「特色」為主，或稍後再試）';
-                    el.setAttribute('data-filled', '1');
-                }
-            }, 6000);
-
-            let extract = '';
-            for (const L of ['zh','ja','en']) {
-                const data = await tryFetchSummary(name, L);
-                if (data && data.extract) { extract = data.extract; break; }
-            }
-            let summaryText = '';
-            if (extract) {
-                if (isAttraction(name)) {
-                    summaryText = '重點：' + extract.split('。').slice(0,2).join('。') + '。';
-                } else {
-                    summaryText = extract.split(/[。.!?]/).slice(0,2).join('。') + '。';
-                }
-            }
-            if (summaryText) el.innerHTML = '<strong>簡介：</strong>' + summaryText;
-            else {
-                // If still not filled by timeout, provide a graceful fallback now
-                el.innerHTML = '<strong>簡介：</strong>（尚無資料，可用上方搜尋框改用其他關鍵字）';
-            }
-            el.setAttribute('data-filled', '1');
-            resolved = true;
-            clearTimeout(timer);
+  function tryFetchSummary(title, lang) {
+    const url = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+    return fetch(url).then(r => r.ok ? r.json() : null).catch(() => null);
+  }
+  function isAttraction(name) { return /(寺|神社|大社|城|塔|堂|宮|寺院)/.test(name); }
+  async function hydrateSummaries() {
+    const targets = document.querySelectorAll('[data-summary-for]');
+    for (const el of targets) {
+      const name = el.getAttribute('data-summary-for');
+      if (!name || el.getAttribute('data-filled') === '1') continue;
+      let resolved = false;
+      const timer = setTimeout(() => {
+        if (!resolved) {
+          el.innerHTML = '<strong>簡介：</strong>（暫時無法取得，建議以頁面上「特色」為主，或稍後再試）';
+          el.setAttribute('data-filled', '1');
         }
+      }, 6000);
+      let extract = '';
+      for (const L of ['zh','ja','en']) {
+        const data = await tryFetchSummary(name, L);
+        if (data && data.extract) { extract = data.extract; break; }
+      }
+      let summaryText = '';
+      if (extract) {
+        if (isAttraction(name)) {
+          summaryText = '重點：' + extract.split('。').slice(0,2).join('。') + '。';
+        } else {
+          summaryText = extract.split(/[。.!?]/).slice(0,2).join('。') + '。';
+        }
+      }
+      if (summaryText) el.innerHTML = '<strong>簡介：</strong>' + summaryText;
+      else { el.innerHTML = '<strong>簡介：</strong>（尚無資料，可用上方搜尋框改用其他關鍵字）'; }
+      el.setAttribute('data-filled', '1');
+      resolved = true;
+      clearTimeout(timer);
     }
-    hydrateSummaries();
+  }
+  hydrateSummaries();
 
-    // Defaults
-    if (dayCards.length > 0) dayCards[0].classList.add('expanded');
-    showTab('by-day');
+  if (dayCards.length > 0) dayCards[0].classList.add('expanded');
+  showTab('by-day');
 });
 </script>
 
