@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2025 大阪京都：旅行日程表、推薦景點/餐廳名單</title>
+<style>
+:root { --primary:#ff93a7; --primary-soft:#ffe6ec; --accent:#7cd2c6; --bg:#fffafc; --text-main:#333; --text-soft:#5f646a; --border-soft:#f2dbe2; --radius-large:18px; --shadow-soft:0 6px 18px rgba(255,147,167,.12); }
+body { font-size:17px; line-height:1.8; background:var(--bg); color:var(--text-main); font-family: system-ui, -apple-system, Segoe UI, sans-serif; margin:0; }
+.tab-button.active { background:#fff; color: var(--primary); box-shadow: var(--shadow-soft); border:1px solid var(--primary-soft); }
+.day-card { border:1px solid var(--primary-soft); background:#fffefe; }
+.day-header:hover { background:#fff7fb; }
+.day-badge { background: var(--primary-soft); color: var(--primary); }
+.timeline { border:1px dashed #ffd0dd; background:#fff5f9; }
+.time-cell { color: var(--accent); }
+.mini-card { border:1px solid #ffd0dd; background:#fff8fb; }
+.mini-chip, .tag-chip { border: 1px solid #ffc1d2; background: #fff; }
+.area-block { border:1px solid #f6dbe4; background:#fffefe; }
+.side-note { border:1px dashed #ffd0dd; background:#fff7fb; }
+.stay-pill { background:#eef8f6; color:#2f726c; }
+input#keywordInput { background:#fff; }
+.coupon-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-top:8px; }
+.coupon-card { border-radius: 16px; border:1px solid #ffd0dd; background:#fff8fb; padding:10px; display:flex; gap:10px; align-items:center; }
+.coupon-thumb { width:56px; height:56px; border-radius:12px; border:1px solid #ffd0dd; display:flex; align-items:center; justify-content:center; font-size:28px; background:#fff; }
+.coupon-body { flex:1; min-width:0; }
+.coupon-title { font-weight:700; }
+.coupon-desc { font-size:0.9rem; color:var(--text-soft); }
+.coupon-link { font-weight:700; color: var(--primary); text-decoration:none; }
+.page { max-width:1080px; margin:0 auto; padding:16px 16px 40px; }
+header { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; padding:16px 18px; background:#fff; border-radius:18px; box-shadow: var(--shadow-soft); position:sticky; top:0; z-index:20; backdrop-filter:blur(10px); }
+.title { font-size:1.25rem; font-weight:700; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.title-tag { font-size:0.8rem; padding:2px 10px; border-radius:999px; background:var(--primary-soft); color:var(--primary); }
+.subtitle { font-size:0.9rem; color:var(--text-soft); display:flex; flex-wrap:wrap; gap:6px 12px; align-items:center; }
+.subtitle span { display:inline-flex; align-items:center; gap:6px; }
+.pill { background:#f5f5f5; padding:2px 10px; border-radius:999px; font-size:0.8rem; }
+.tab-bar { margin-top:8px; display:grid; grid-template-columns: repeat(3,1fr); gap:8px; padding:4px; background:#fafafa; border-radius:999px; }
+.tab-button { border:none; border-radius:999px; padding:10px 6px; font-size:0.95rem; font-weight:600; background:transparent; color:var(--text-soft); display:flex; align-items:center; justify-content:center; gap:6px; cursor:pointer; }
+.section { background:#fff; border-radius:20px; box-shadow: var(--shadow-soft); padding:14px 14px 18px; margin-bottom:18px; }
+.section-title { font-size:1rem; font-weight:700; display:flex; align-items:center; gap:6px; }
+.section-caption { font-size:0.8rem; color:var(--text-soft); }
+.day-list { display:flex; flex-direction:column; gap:8px; }
+.day-header { padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:pointer; touch-action:manipulation; }
+.day-left { display:flex; flex-direction:column; gap:2px; min-width:0; }
+.day-line1 { font-size:0.95rem; font-weight:600; display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
+.day-date { font-size:0.9rem; }
+.day-line2 { font-size:0.85rem; color:var(--text-soft); display:flex; flex-wrap:wrap; gap:6px; }
+.day-tag { background:#f7f7f7; padding:2px 8px; border-radius:999px; }
+.day-right { display:flex; align-items:center; gap:8px; }
+.chevron { font-size:1.1rem; transition: transform .2s ease; }
+.day-card.expanded .chevron { transform: rotate(90deg); }
+.day-details { display:none; border-top:1px dashed var(--border-soft); padding:8px 12px 12px; background:#fffdfb; font-size:0.9rem; }
+.day-card.expanded .day-details { display:block; }
+.timeline-row { display:grid; grid-template-columns:70px minmax(0,1fr); gap:4px 10px; padding:4px 0; border-bottom:1px solid rgba(0,0,0,0.03); }
+.timeline-row:last-child { border-bottom:none; }
+.plan-main { font-size:.95rem; }
+.plan-note { font-size:.82rem; color:var(--text-soft); margin-top:2px; }
+.places-mini-list { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:8px; margin-top:4px; }
+.mini-name { font-size:.95rem; font-weight:700; margin-bottom:2px; }
+.mini-meta { font-size:.82rem; color:var(--text-soft); }
+.mini-hint { font-size:.8rem; color:#9a9ea3; }
+.search-bar { margin-top:4px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.search-input-wrapper { position:relative; flex:1 1 220px; }
+.search-input-wrapper input { width:100%; padding:10px 36px 10px 34px; border-radius:999px; border:1px solid var(--border-soft); font-size:1rem; outline:none; }
+.search-input-wrapper .icon-left { position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:1rem; color:var(--text-soft); }
+.search-input-wrapper .clear-btn { position:absolute; right:10px; top:50%; transform:translateY(-50%); border:none; background:transparent; font-size:1rem; cursor:pointer; display:none; color:var(--text-soft); }
+.search-input-wrapper.has-text .clear-btn { display:block; }
+.area-list { margin-top:10px; display:flex; flex-direction:column; gap:10px; }
+.area-header { display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:6px; }
+.area-name { font-size:1rem; font-weight:700; display:flex; align-items:center; gap:6px; }
+.area-tag { font-size:.82rem; padding:2px 8px; border-radius:999px; background:#f5f5f5; }
+.area-count { font-size:.82rem; color:var(--text-soft); }
+.place-card { border-radius:12px; border:1px dashed #ffe0ef; padding:6px 8px; margin-top:6px; background:#fffafc; font-size:.95rem; }
+.place-name { font-weight:700; }
+.place-meta { font-size:.85rem; color:var(--text-soft); margin-top:2px; }
+.place-tags { margin-top:4px; display:flex; flex-wrap:wrap; gap:4px; }
+.tag-chip { font-size:.78rem; padding:2px 7px; border-radius:999px; background:#fff; border:1px solid #ffd2e1; }
+.no-result { font-size:.9rem; color:var(--text-soft); margin-top:10px; }
+.side-note { position:sticky; top:140px; align-self:flex-start; padding:12px 14px; background:#fffefb; border-radius:18px; border:1px dashed #ffd0dd; box-shadow:var(--shadow-soft); font-size:.85rem; }
+.side-note-title { font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:4px; }
+.side-note-list { margin:4px 0 0; padding-left:18px; }
+@media (max-width:600px){ header{padding:12px 14px;} .title{font-size:1.1rem;} .subtitle{font-size:.85rem;} .section{padding:12px 12px 16px;} .day-header{padding:9px 10px;} .timeline-row{grid-template-columns:60px minmax(0,1fr);} .side-note{position:static; margin-top:10px;} }
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+<div class="title">
+<span>2025 大阪京都：旅行日程表、推薦景點/餐廳名單</span>
+<span class="title-tag">家人同行也好用的旅遊網頁</span>
+</div>
+<div class="subtitle">
+<span>👨🏻‍👩🏻‍👧🏻‍👦🏻 <span>成員：Debby, Louis, Emma, Ming-Tsung</span></span>
+<span class="pill">建議：手機橫放或調整字體大小，閱讀更清楚</span>
+</div>
+<div class="tab-bar" role="tablist">
+<button class="tab-button active" data-tab="by-day" role="tab" aria-selected="true"><span class="icon">📅</span><span>依日期查看行程</span></button>
+<button class="tab-button" data-tab="by-area" role="tab" aria-selected="false"><span class="icon">📍</span><span>依地區看景點／餐廳</span></button>
+<button class="tab-button" data-tab="coupons" role="tab" aria-selected="false"><span class="icon">🧾</span><span>購物優惠卷</span></button>
+</div>
+</header>
+
+<main>
+<div>
+<section id="section-by-day" class="section" data-section="by-day" aria-label="依日期查看行程">
+<div class="section-header">
+<div>
+<div class="section-title"><span class="emoji">📅</span><span>依日期查看行程</span></div>
+<div class="section-caption">點選每一天，可展開當日詳細行程＋附近推薦景點／餐廳（每個地點下方含「特色＋簡介」）</div>
+</div>
+</div>
+<div class="day-list">
+<article class="day-card" data-day="第1天">
+  <div class="day-header" tabindex="0">
+    <div class="day-left">
+      <div class="day-line1">
+        <span class="day-badge">第1天</span>
+        <span class="day-date">2025/11/22（六）</span>
+        <span class="day-tag">關西機場 → 京都</span>
+      </div>
+      <div class="day-line2"><span>抵達日本、入住休息</span></div>
+    </div>
+    <div class="day-right">
+      <div class="stay-pill">住宿：Keio Prelia Hotel Kyoto Karasuma Gojo 
+京王プレリアホテル京都烏丸五条</div>
+      <div class="chevron" aria-hidden="true">▶</div>
+    </div>
+  </div>
+  <div class="day-details">
+    <div>
+      <div class="subsection-title"><span class="emoji">🕒</span><span>當日行程</span></div>
+      <div class="timeline"><div class="timeline-row"><div class="time-cell"></div><div><div class="plan-note">Haruka 要先選位（行李位少）</div></div></div></div>
+    </div>
+    <div>
+      <div class="subsection-title"><span class="emoji">📍</span><span>附近推薦景點／餐廳</span></div>
+      <div class="places-mini-list">
+        <div class="mini-card" data-place-name="清水寺">
+          <div class="mini-name">清水寺 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">京都 ｜ 清水寺 ｜ 古蹟</div>
+          <div class="mini-meta">從清水舞台看向本殿是最美的；隨求樓鈴（獨賣）｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="清水寺"><em>載入簡介中…</em></div>
+        </div></div>
+    </div>
+  </div>
+</article>
+
+<article class="day-card" data-day="第2天">
+  <div class="day-header" tabindex="0">
+    <div class="day-left">
+      <div class="day-line1">
+        <span class="day-badge">第2天</span>
+        <span class="day-date">2025/11/23（日）</span>
+        <span class="day-tag">京都東山＋市中心</span>
+      </div>
+      <div class="day-line2"><span>清水寺、知恩院、祇園、錦市場、河原町</span></div>
+    </div>
+    <div class="day-right">
+      
+      <div class="chevron" aria-hidden="true">▶</div>
+    </div>
+  </div>
+  <div class="day-details">
+    <div>
+      <div class="subsection-title"><span class="emoji">🕒</span><span>當日行程</span></div>
+      <div class="timeline"><div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">清水寺</div><div class="plan-note">從清水舞台看向本殿是最美的；隨求樓鈴（獨賣）</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">産寧坂 (三年坂)</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">優佳雅 Yojiya 藝伎</div><div class="plan-note">皂香小香水</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">七味家本舖</div><div class="plan-note">柚子胡椒鹽、各種七味粉</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">伊藤軒/SOU・SOU 清水店</div><div class="plan-note">和菓子、蕨餅</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">音羽之瀧 （音羽の滝）</div><div class="plan-note">「長壽、健康、智慧」只能選一條來喝</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">法観寺 Hōkan-ji Temple (Yasaka Pagoda)</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">日東堂 KYOTO COFFEE</div><div class="plan-note">文青工藝品、咖啡好喝</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">二年坂（清水 -&gt; 法観寺路上）</div><div class="plan-note">看得到八板塔、星巴克是榻榻米的</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">八坂庚申堂 aka 金剛寺</div><div class="plan-note">七彩許願猴（一次只能買一個、許一個願望）</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">Hanamikoji Street 花見小路通</div><div class="plan-note">古街，傍晚去可能看得到藝妓</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">安井金比羅宮（緣切緣結碑）</div><div class="plan-note">斬斷惡緣或負能量</div></div></div>
+<div class="timeline-row"><div class="time-cell">1900-01-01 19:30:00</div><div><div class="plan-main">晚餐（✅已訂位）：但馬屋PREMIUM 京都駅八条口店（壽喜燒）</div></div></div></div>
+    </div>
+    <div>
+      <div class="subsection-title"><span class="emoji">📍</span><span>附近推薦景點／餐廳</span></div>
+      <div class="places-mini-list">
+        <div class="mini-card" data-place-name="清水寺">
+          <div class="mini-name">清水寺 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">京都 ｜ 清水寺 ｜ 古蹟</div>
+          <div class="mini-meta">從清水舞台看向本殿是最美的；隨求樓鈴（獨賣）｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="清水寺"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="産寧坂 (三年坂)">
+          <div class="mini-name">産寧坂 (三年坂) <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 清水寺 ｜ 逛逛</div>
+          <div class="mini-meta">nan｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="産寧坂 (三年坂)"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="優佳雅 Yojiya 藝伎">
+          <div class="mini-name">優佳雅 Yojiya 藝伎 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 清水寺 ｜ 購物</div>
+          <div class="mini-meta">皂香小香水｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="優佳雅 Yojiya 藝伎"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="七味家本舖">
+          <div class="mini-name">七味家本舖 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 清水寺 ｜ 購物</div>
+          <div class="mini-meta">柚子胡椒鹽、各種七味粉｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="七味家本舖"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="伊藤軒/SOU・SOU 清水店">
+          <div class="mini-name">伊藤軒/SOU・SOU 清水店 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 清水寺 ｜ 小吃攤</div>
+          <div class="mini-meta">和菓子、蕨餅｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="伊藤軒/SOU・SOU 清水店"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="音羽之瀧 （音羽の滝）">
+          <div class="mini-name">音羽之瀧 （音羽の滝） <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 清水寺 ｜ 逛逛</div>
+          <div class="mini-meta">「長壽、健康、智慧」只能選一條來喝｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="音羽之瀧 （音羽の滝）"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="法観寺 Hōkan-ji Temple (Yasaka Pagoda)">
+          <div class="mini-name">法観寺 Hōkan-ji Temple (Yasaka Pagoda) <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ 法観寺 ｜ 古蹟</div>
+          <div class="mini-meta">nan｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="法観寺 Hōkan-ji Temple (Yasaka Pagoda)"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="日東堂 KYOTO COFFEE">
+          <div class="mini-name">日東堂 KYOTO COFFEE <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ 二年坂 ｜ 咖啡, 購物</div>
+          <div class="mini-meta">文青工藝品、咖啡好喝｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="日東堂 KYOTO COFFEE"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="二年坂（清水 -&gt; 法観寺路上）">
+          <div class="mini-name">二年坂（清水 -&gt; 法観寺路上） <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ 二年坂 ｜ 咖啡, 逛逛</div>
+          <div class="mini-meta">看得到八板塔、星巴克是榻榻米的｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="二年坂（清水 -&gt; 法観寺路上）"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="八坂庚申堂 aka 金剛寺">
+          <div class="mini-name">八坂庚申堂 aka 金剛寺 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ 法観寺 ｜ 古蹟</div>
+          <div class="mini-meta">七彩許願猴（一次只能買一個、許一個願望）｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="八坂庚申堂 aka 金剛寺"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="安井金比羅宮（緣切緣結碑）">
+          <div class="mini-name">安井金比羅宮（緣切緣結碑） <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ 法観寺 ｜ 古蹟</div>
+          <div class="mini-meta">斬斷惡緣或負能量｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="安井金比羅宮（緣切緣結碑）"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="Hanamikoji Street 花見小路通">
+          <div class="mini-name">Hanamikoji Street 花見小路通 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 祇園 ｜ 古蹟, 逛逛</div>
+          <div class="mini-meta">古街，傍晚去可能看得到藝妓｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="Hanamikoji Street 花見小路通"><em>載入簡介中…</em></div>
+        </div></div>
+    </div>
+  </div>
+</article>
+
+<article class="day-card" data-day="第3天">
+  <div class="day-header" tabindex="0">
+    <div class="day-left">
+      <div class="day-line1">
+        <span class="day-badge">第3天</span>
+        <span class="day-date">2025/11/24（一・假日）</span>
+        <span class="day-tag">琵琶湖（大津・比叡山）</span>
+      </div>
+      <div class="day-line2"><span>湖景＋延曆寺賞楓＋遊船</span></div>
+    </div>
+    <div class="day-right">
+      
+      <div class="chevron" aria-hidden="true">▶</div>
+    </div>
+  </div>
+  <div class="day-details">
+    <div>
+      <div class="subsection-title"><span class="emoji">🕒</span><span>當日行程</span></div>
+      <div class="timeline"><div class="timeline-empty">此日以彈性安排為主，請依當天體力與天候調整。</div></div>
+    </div>
+    <div>
+      <div class="subsection-title"><span class="emoji">📍</span><span>附近推薦景點／餐廳</span></div>
+      <div class="places-mini-list"><div class="timeline-empty">這一天沒有對應到特定地區的推薦清單，可切換到「依地區」分頁瀏覽全部地點。</div></div>
+    </div>
+  </div>
+</article>
+
+<article class="day-card" data-day="第4天">
+  <div class="day-header" tabindex="0">
+    <div class="day-left">
+      <div class="day-line1">
+        <span class="day-badge">第4天</span>
+        <span class="day-date">2025/11/25（二）</span>
+        <span class="day-tag">嵐山</span>
+      </div>
+      <div class="day-line2"><span>保津川遊湖賞楓、竹林、野宮神社、購物街、渡月橋、世界文化遺產「天龍寺」、嵐山公園、鴨川</span></div>
+    </div>
+    <div class="day-right">
+      
+      <div class="chevron" aria-hidden="true">▶</div>
+    </div>
+  </div>
+  <div class="day-details">
+    <div>
+      <div class="subsection-title"><span class="emoji">🕒</span><span>當日行程</span></div>
+      <div class="timeline"><div class="timeline-row"><div class="time-cell">早上</div><div><div class="plan-main">Kyoto Gyoen National Garden 京都御苑</div></div></div>
+<div class="timeline-row"><div class="time-cell">1900-01-01 12:30:00</div><div><div class="plan-main">往保津川遊湖地點出發（最晚）</div><div class="plan-note">Hozugawa River Boat Ride (Hozugawa Kudari)
+保津川下り</div></div></div>
+<div class="timeline-row"><div class="time-cell">1900-01-01 13:30:00</div><div><div class="plan-main">遊船：保津川遊湖賞楓</div></div></div>
+<div class="timeline-row"><div class="time-cell">1900-01-01 15:30:00</div><div><div class="plan-main">遊船結束</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">竹林、野宮神社、購物街、渡月橋、世界文化遺產「天龍寺」、嵐山公園</div><div class="plan-note">（若從車站出發）會先遇到野宮神社，往左走是要付費入場的天龍寺，往右走則是竹林小徑的另一端</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">中村屋総本店</div><div class="plan-note">好吃的可麗餅</div></div></div>
+<div class="timeline-row"><div class="time-cell">晚上</div><div><div class="plan-main">鴨川散步</div></div></div></div>
+    </div>
+    <div>
+      <div class="subsection-title"><span class="emoji">📍</span><span>附近推薦景點／餐廳</span></div>
+      <div class="places-mini-list">
+        <div class="mini-card" data-place-name="小火車">
+          <div class="mini-name">小火車 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 嵐山 ｜ 逛逛</div>
+          <div class="mini-meta">nan｜注意：先預約</div>
+          <div class="mini-summary" data-summary-for="小火車"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="遊湖船">
+          <div class="mini-name">遊湖船 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 嵐山 ｜ 逛逛</div>
+          <div class="mini-meta">nan｜注意：先預約</div>
+          <div class="mini-summary" data-summary-for="遊湖船"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="中村屋総本店">
+          <div class="mini-name">中村屋総本店 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 嵐山 ｜ 小吃攤</div>
+          <div class="mini-meta">好吃的可麗餅｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="中村屋総本店"><em>載入簡介中…</em></div>
+        </div></div>
+    </div>
+  </div>
+</article>
+
+<article class="day-card" data-day="第5天">
+  <div class="day-header" tabindex="0">
+    <div class="day-left">
+      <div class="day-line1">
+        <span class="day-badge">第5天</span>
+        <span class="day-date">2025/11/26（三）</span>
+        <span class="day-tag">京都市中心</span>
+      </div>
+      <div class="day-line2"><span>錦市場、河原町、知恩院、虎屋町、鴨川、先斗町</span></div>
+    </div>
+    <div class="day-right">
+      <div class="stay-pill">住宿：Mitsui Garden Hotel Osaka Premier 三井ガーデンホテル大阪プレミア</div>
+      <div class="chevron" aria-hidden="true">▶</div>
+    </div>
+  </div>
+  <div class="day-details">
+    <div>
+      <div class="subsection-title"><span class="emoji">🕒</span><span>當日行程</span></div>
+      <div class="timeline"><div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">錦市場</div><div class="plan-note">各種現烤海鮮小吃店、壽司炸蝦章魚燒</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">河原町 寺町京極商店街 (コンパッソ寺町)</div><div class="plan-note">當地人也很常逛的老街，很大一條好逛商店街、不像心齋橋擠，很多藥妝雜貨古著。一路走到底左轉可到 human made x blue bottle</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">B-SIDE LABEL Kyoto Store</div><div class="plan-note">風格鮮明幽默的防水貼紙（大阪品牌）</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">human made x blue bottle</div><div class="plan-note">全日本第一家藍瓶 crossover 店家，有很多座位，偏現代明亮裝潢（想買限定杯！）</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">本能寺</div><div class="plan-note">「敵人就在本能寺」的本能寺</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">知恩院</div><div class="plan-note">楓葉景點</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">麺屋 優光</div><div class="plan-note">貝類醬油拉麵、鹽拉麵，入選「拉麵百名店」</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">ShinPuhKan 新風館</div><div class="plan-note">百年建築＋現代設計 mall (le labo, traveler&#x27;s factory, globe specs, 1LDK)</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">飯店 check in</div><div class="plan-note">Mitsui Garden Hotel Osaka Premier 三井ガーデンホテル大阪プレミア</div></div></div></div>
+    </div>
+    <div>
+      <div class="subsection-title"><span class="emoji">📍</span><span>附近推薦景點／餐廳</span></div>
+      <div class="places-mini-list">
+        <div class="mini-card" data-place-name="Osaka Castle 大阪城公園">
+          <div class="mini-name">Osaka Castle 大阪城公園 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ nan ｜ 古蹟</div>
+          <div class="mini-meta">大公園，應也蠻多紅楓葉｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="Osaka Castle 大阪城公園"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="大阪市中央公會堂">
+          <div class="mini-name">大阪市中央公會堂 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 古蹟</div>
+          <div class="mini-meta">日本重要文化財｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="大阪市中央公會堂"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="日本銀行大阪分店舊館">
+          <div class="mini-name">日本銀行大阪分店舊館 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 逛逛</div>
+          <div class="mini-meta">與被列為重要文化財的「日本銀行本店」和「東京車站丸之內車站」建築同樣出自「日本近代建築之父」的辰野金吾之手。整體設計以比利時國立銀行等建築為原型，承襲了古典主義風格。｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="日本銀行大阪分店舊館"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="九州の旬 博多廊 大阪店">
+          <div class="mini-name">九州の旬 博多廊 大阪店 <span class="mini-hint">（餐廳）</span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 餐廳</div>
+          <div class="mini-meta">三井飯店內，九州博多料理，使用九州生產的當季食材製作道地的九州料理，賣點在於從九州各地收集來的地產酒類及燒酒。｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="九州の旬 博多廊 大阪店"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="清水寺">
+          <div class="mini-name">清水寺 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">京都 ｜ 清水寺 ｜ 古蹟</div>
+          <div class="mini-meta">從清水舞台看向本殿是最美的；隨求樓鈴（獨賣）｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="清水寺"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="麺屋 優光">
+          <div class="mini-name">麺屋 優光 <span class="mini-hint">（餐廳）</span></div>
+          <div class="mini-meta">nan ｜ 虎屋町 ｜ 餐廳</div>
+          <div class="mini-meta">貝類醬油拉麵、鹽拉麵，入選「拉麵百名店」｜注意：座位不多但翻桌率高</div>
+          <div class="mini-summary" data-summary-for="麺屋 優光"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="ShinPuhKan 新風館">
+          <div class="mini-name">ShinPuhKan 新風館 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 虎屋町 ｜ 購物, 逛逛</div>
+          <div class="mini-meta">百年建築＋現代設計 mall (le labo, traveler&#x27;s factory, globe specs, 1LDK)｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="ShinPuhKan 新風館"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="知恩院">
+          <div class="mini-name">知恩院 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ nan ｜ 逛逛</div>
+          <div class="mini-meta">楓葉景點｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="知恩院"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="河原町 商店街">
+          <div class="mini-name">河原町 商店街 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 河原町 ｜ 逛逛, 購物</div>
+          <div class="mini-meta">很大一條好逛商店街、不像心齋橋擠，很多藥妝雜貨古著。一路走到底左轉可到 human made x blue bottle｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="河原町 商店街"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="human made x blue bottle">
+          <div class="mini-name">human made x blue bottle <span class="mini-hint">（咖啡店）</span></div>
+          <div class="mini-meta">nan ｜ 河原町 ｜ 咖啡, 購物</div>
+          <div class="mini-meta">全日本第一家藍瓶 crossover 店家，有很多座位，偏現代明亮裝潢（想買限定杯！）｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="human made x blue bottle"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="本能寺">
+          <div class="mini-name">本能寺 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ 河原町 ｜ 逛逛</div>
+          <div class="mini-meta">「敵人就在本能寺」的本能寺｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="本能寺"><em>載入簡介中…</em></div>
+        </div></div>
+    </div>
+  </div>
+</article>
+
+<article class="day-card" data-day="第6天">
+  <div class="day-header" tabindex="0">
+    <div class="day-left">
+      <div class="day-line1">
+        <span class="day-badge">第6天</span>
+        <span class="day-date">2025/11/27（四）</span>
+        <span class="day-tag">大阪</span>
+      </div>
+      <div class="day-line2"><span>大阪歷史博物館、大阪城公園賞楓、心斎橋、道頓崛、新世界</span></div>
+    </div>
+    <div class="day-right">
+      
+      <div class="chevron" aria-hidden="true">▶</div>
+    </div>
+  </div>
+  <div class="day-details">
+    <div>
+      <div class="subsection-title"><span class="emoji">🕒</span><span>當日行程</span></div>
+      <div class="timeline"><div class="timeline-row"><div class="time-cell">早上</div><div><div class="plan-main">大阪城公園、大阪歷史博物館</div></div></div>
+<div class="timeline-row"><div class="time-cell">1900-01-01 18:30:00</div><div><div class="plan-main">晚餐（✅已訂位）：心斎橋 赤坂富貴貫 鰻魚飯</div><div class="plan-note">四種套餐組合，當地人也很愛</div></div></div>
+<div class="timeline-row"><div class="time-cell">1900-01-01 20:30:00</div><div><div class="plan-main">居酒屋（✅已訂位）：心斎橋の美味しい串カツあげてんかっ!本店（炸串名店）</div><div class="plan-note">炸串專店◇佐以各種葡萄酒享用、蛋黃拌飯</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">往南散步：往法善寺 --&gt; 道頓堀 --&gt; 新世界本通商店街（通天閣南側集結了「只准沾一次」的串炸店）</div></div></div></div>
+    </div>
+    <div>
+      <div class="subsection-title"><span class="emoji">📍</span><span>附近推薦景點／餐廳</span></div>
+      <div class="places-mini-list">
+        <div class="mini-card" data-place-name="Osaka Castle 大阪城公園">
+          <div class="mini-name">Osaka Castle 大阪城公園 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ nan ｜ 古蹟</div>
+          <div class="mini-meta">大公園，應也蠻多紅楓葉｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="Osaka Castle 大阪城公園"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="大阪市中央公會堂">
+          <div class="mini-name">大阪市中央公會堂 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 古蹟</div>
+          <div class="mini-meta">日本重要文化財｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="大阪市中央公會堂"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="日本銀行大阪分店舊館">
+          <div class="mini-name">日本銀行大阪分店舊館 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 逛逛</div>
+          <div class="mini-meta">與被列為重要文化財的「日本銀行本店」和「東京車站丸之內車站」建築同樣出自「日本近代建築之父」的辰野金吾之手。整體設計以比利時國立銀行等建築為原型，承襲了古典主義風格。｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="日本銀行大阪分店舊館"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="九州の旬 博多廊 大阪店">
+          <div class="mini-name">九州の旬 博多廊 大阪店 <span class="mini-hint">（餐廳）</span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 餐廳</div>
+          <div class="mini-meta">三井飯店內，九州博多料理，使用九州生產的當季食材製作道地的九州料理，賣點在於從九州各地收集來的地產酒類及燒酒。｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="九州の旬 博多廊 大阪店"><em>載入簡介中…</em></div>
+        </div></div>
+    </div>
+  </div>
+</article>
+
+<article class="day-card" data-day="第7天">
+  <div class="day-header" tabindex="0">
+    <div class="day-left">
+      <div class="day-line1">
+        <span class="day-badge">第7天</span>
+        <span class="day-date">2025/11/28（五）</span>
+        <span class="day-tag">大阪</span>
+      </div>
+      <div class="day-line2"><span>中之島、自由活動、購物、居酒屋體驗、中崎町文青 block</span></div>
+    </div>
+    <div class="day-right">
+      
+      <div class="chevron" aria-hidden="true">▶</div>
+    </div>
+  </div>
+  <div class="day-details">
+    <div>
+      <div class="subsection-title"><span class="emoji">🕒</span><span>當日行程</span></div>
+      <div class="timeline"><div class="timeline-row"><div class="time-cell">早上</div><div><div class="plan-main">早餐：黑門市場 / 津木市場</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">難波八阪神社（大獅子頭）</div></div></div></div>
+    </div>
+    <div>
+      <div class="subsection-title"><span class="emoji">📍</span><span>附近推薦景點／餐廳</span></div>
+      <div class="places-mini-list">
+        <div class="mini-card" data-place-name="Osaka Castle 大阪城公園">
+          <div class="mini-name">Osaka Castle 大阪城公園 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ nan ｜ 古蹟</div>
+          <div class="mini-meta">大公園，應也蠻多紅楓葉｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="Osaka Castle 大阪城公園"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="大阪市中央公會堂">
+          <div class="mini-name">大阪市中央公會堂 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 古蹟</div>
+          <div class="mini-meta">日本重要文化財｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="大阪市中央公會堂"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="日本銀行大阪分店舊館">
+          <div class="mini-name">日本銀行大阪分店舊館 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 逛逛</div>
+          <div class="mini-meta">與被列為重要文化財的「日本銀行本店」和「東京車站丸之內車站」建築同樣出自「日本近代建築之父」的辰野金吾之手。整體設計以比利時國立銀行等建築為原型，承襲了古典主義風格。｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="日本銀行大阪分店舊館"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="九州の旬 博多廊 大阪店">
+          <div class="mini-name">九州の旬 博多廊 大阪店 <span class="mini-hint">（餐廳）</span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 餐廳</div>
+          <div class="mini-meta">三井飯店內，九州博多料理，使用九州生產的當季食材製作道地的九州料理，賣點在於從九州各地收集來的地產酒類及燒酒。｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="九州の旬 博多廊 大阪店"><em>載入簡介中…</em></div>
+        </div></div>
+    </div>
+  </div>
+</article>
+
+<article class="day-card" data-day="第8天">
+  <div class="day-header" tabindex="0">
+    <div class="day-left">
+      <div class="day-line1">
+        <span class="day-badge">第8天</span>
+        <span class="day-date">2025/11/29（六）</span>
+        <span class="day-tag">大阪 → 機場</span>
+      </div>
+      <div class="day-line2"><span>回台灣</span></div>
+    </div>
+    <div class="day-right">
+      
+      <div class="chevron" aria-hidden="true">▶</div>
+    </div>
+  </div>
+  <div class="day-details">
+    <div>
+      <div class="subsection-title"><span class="emoji">🕒</span><span>當日行程</span></div>
+      <div class="timeline"><div class="timeline-row"><div class="time-cell">早上</div><div><div class="plan-main">Takamura Wine &amp; Coffee Roasters</div><div class="plan-note">Good coffee &amp; wine selection, spacious</div></div></div>
+<div class="timeline-row"><div class="time-cell"></div><div><div class="plan-main">臨空城 outlet 逛街</div></div></div></div>
+    </div>
+    <div>
+      <div class="subsection-title"><span class="emoji">📍</span><span>附近推薦景點／餐廳</span></div>
+      <div class="places-mini-list">
+        <div class="mini-card" data-place-name="Osaka Castle 大阪城公園">
+          <div class="mini-name">Osaka Castle 大阪城公園 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ nan ｜ 古蹟</div>
+          <div class="mini-meta">大公園，應也蠻多紅楓葉｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="Osaka Castle 大阪城公園"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="大阪市中央公會堂">
+          <div class="mini-name">大阪市中央公會堂 <span class="mini-hint">（歷史景點）</span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 古蹟</div>
+          <div class="mini-meta">日本重要文化財｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="大阪市中央公會堂"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="日本銀行大阪分店舊館">
+          <div class="mini-name">日本銀行大阪分店舊館 <span class="mini-hint"></span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 逛逛</div>
+          <div class="mini-meta">與被列為重要文化財的「日本銀行本店」和「東京車站丸之內車站」建築同樣出自「日本近代建築之父」的辰野金吾之手。整體設計以比利時國立銀行等建築為原型，承襲了古典主義風格。｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="日本銀行大阪分店舊館"><em>載入簡介中…</em></div>
+        </div>
+
+        <div class="mini-card" data-place-name="九州の旬 博多廊 大阪店">
+          <div class="mini-name">九州の旬 博多廊 大阪店 <span class="mini-hint">（餐廳）</span></div>
+          <div class="mini-meta">nan ｜ 中之島 ｜ 餐廳</div>
+          <div class="mini-meta">三井飯店內，九州博多料理，使用九州生產的當季食材製作道地的九州料理，賣點在於從九州各地收集來的地產酒類及燒酒。｜注意：nan</div>
+          <div class="mini-summary" data-summary-for="九州の旬 博多廊 大阪店"><em>載入簡介中…</em></div>
+        </div></div>
+    </div>
+  </div>
+</article></div>
+</section>
+
+<section id="section-by-area" class="section" data-section="by-area" style="display:none;" aria-label="依地區查看景點與餐廳">
+<div class="section-header">
+<div>
+<div class="section-title"><span class="emoji">📍</span><span>依地區查看景點／餐廳</span></div>
+<div class="section-caption">搜尋框下方已列出全部地點（106 筆）；輸入關鍵字會即時篩選。（每個地點下方含「特色＋簡介」）</div>
+</div>
+</div>
+<div class="search-bar">
+<div class="search-input-wrapper" id="search-wrapper">
+<span class="icon-left">🔍</span>
+<input type="text" id="keywordInput" placeholder="輸入關鍵字，例如：清水寺、咖啡、壽喜燒…" aria-label="搜尋景點與餐廳">
+<button type="button" class="clear-btn" aria-label="清除搜尋">✕</button>
+</div>
+<div class="search-helper">小技巧：輸入「咖啡」、「居酒屋」、「楓葉」、「百貨」等關鍵字，就能快速找到想去的地方。</div>
+</div>
+<div class="area-list" id="areaList">
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>Nakazaki 中崎</span></div>
+    <div>
+      <span class="area-tag">Osaka · Nakazaki 中崎</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="Osaka Nakazaki 中崎 Nakazaki 中崎 hipster neighborhood (雜貨小店/咖啡） 逛逛 nan nan" data-place-name="Nakazaki 中崎">
+    <div class="place-name">Nakazaki 中崎 <span class="mini-hint"></span></div>
+    <div class="place-meta">Osaka ｜ Nakazaki 中崎 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">hipster neighborhood (雜貨小店/咖啡）｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="Nakazaki 中崎"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>Nakazaki 中崎</span></div>
+    <div>
+      <span class="area-tag">nan · Nakazaki 中崎</span>
+      <span class="area-count">2 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan Nakazaki 中崎 neel 中崎町 nan 咖啡 nan nan" data-place-name="neel 中崎町">
+    <div class="place-name">neel 中崎町 <span class="mini-hint">（咖啡店）</span></div>
+    <div class="place-meta">nan ｜ Nakazaki 中崎 ｜ 類型：咖啡 ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">咖啡</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="neel 中崎町"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan Nakazaki 中崎 Onigiri Gorichan おにぎりごりちゃん 中崎町本店 highly rated 手工飯糰 小吃攤 nan nan" data-place-name="Onigiri Gorichan おにぎりごりちゃん 中崎町本店">
+    <div class="place-name">Onigiri Gorichan おにぎりごりちゃん 中崎町本店 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ Nakazaki 中崎 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">highly rated 手工飯糰｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="Onigiri Gorichan おにぎりごりちゃん 中崎町本店"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>nan</span></div>
+    <div>
+      <span class="area-tag">nan · nan</span>
+      <span class="area-count">10 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan nan 新世界市場 傳統市場商店、麵包店（微沒落）、對面有生魚片蓋飯木津魚宗 逛逛 nan nan" data-place-name="新世界市場">
+    <div class="place-name">新世界市場 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ nan ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">傳統市場商店、麵包店（微沒落）、對面有生魚片蓋飯木津魚宗｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="新世界市場"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan nan Osaka Castle 大阪城公園 大公園，應也蠻多紅楓葉 古蹟 nan nan" data-place-name="Osaka Castle 大阪城公園">
+    <div class="place-name">Osaka Castle 大阪城公園 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ nan ｜ 類型：古蹟 ｜ 營業時間：nan</div>
+    <div class="place-meta">大公園，應也蠻多紅楓葉｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="Osaka Castle 大阪城公園"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan nan nan nan nan nan nan" data-place-name="nan">
+    <div class="place-name">nan <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ nan ｜ 類型：nan ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">nan</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="nan"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan nan nan nan nan nan nan" data-place-name="nan">
+    <div class="place-name">nan <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ nan ｜ 類型：nan ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">nan</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="nan"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan nan nan nan nan nan nan" data-place-name="nan">
+    <div class="place-name">nan <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ nan ｜ 類型：nan ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">nan</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="nan"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan nan nan nan nan nan nan" data-place-name="nan">
+    <div class="place-name">nan <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ nan ｜ 類型：nan ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">nan</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="nan"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan nan nan nan nan nan nan" data-place-name="nan">
+    <div class="place-name">nan <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ nan ｜ 類型：nan ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">nan</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="nan"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan nan nan nan nan nan nan" data-place-name="nan">
+    <div class="place-name">nan <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ nan ｜ 類型：nan ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">nan</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="nan"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan nan 空蝉亭 京都最美味的豬排店 餐廳 nan 已無空位" data-place-name="空蝉亭">
+    <div class="place-name">空蝉亭 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ nan ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">京都最美味的豬排店｜注意：已無空位</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：已無空位</span></div>
+    <div class="place-summary" data-summary-for="空蝉亭"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan nan 知恩院 楓葉景點 逛逛 nan nan" data-place-name="知恩院">
+    <div class="place-name">知恩院 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ nan ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="知恩院"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>一乘寺（文教區）</span></div>
+    <div>
+      <span class="area-tag">nan · 一乘寺（文教區）</span>
+      <span class="area-count">7 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 一乘寺（文教區） 一乘寺（文教區） 楓葉景點，人較少（非寺廟）、拉麵戰區 古蹟, 逛逛 nan nan" data-place-name="一乘寺（文教區）">
+    <div class="place-name">一乘寺（文教區） <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 一乘寺（文教區） ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點，人較少（非寺廟）、拉麵戰區｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="一乘寺（文教區）"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 一乘寺（文教區） 恵文社 一乗寺店（世界最美書店） nan 逛逛 nan nan" data-place-name="恵文社 一乗寺店（世界最美書店）">
+    <div class="place-name">恵文社 一乗寺店（世界最美書店） <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 一乘寺（文教區） ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="恵文社 一乗寺店（世界最美書店）"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 一乘寺（文教區） 曼殊院門跡 楓葉景點，人較少：與皇室有關係的寺院（兩個庭院區） 古蹟, 逛逛 nan nan" data-place-name="曼殊院門跡">
+    <div class="place-name">曼殊院門跡 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 一乘寺（文教區） ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點，人較少：與皇室有關係的寺院（兩個庭院區）｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="曼殊院門跡"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 一乘寺（文教區） 鷺森神社 楓葉景點，人較少 古蹟, 逛逛 nan nan" data-place-name="鷺森神社">
+    <div class="place-name">鷺森神社 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 一乘寺（文教區） ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點，人較少｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="鷺森神社"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 一乘寺（文教區） 圓光寺 紅葉名所，人會多一點（十牛之庭池塘花園） 古蹟, 逛逛 nan nan" data-place-name="圓光寺">
+    <div class="place-name">圓光寺 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 一乘寺（文教區） ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">紅葉名所，人會多一點（十牛之庭池塘花園）｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="圓光寺"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 一乘寺（文教區） 詩仙堂（圓光寺走路三分鐘） 楓葉景點，人較少 古蹟, 逛逛 nan nan" data-place-name="詩仙堂（圓光寺走路三分鐘）">
+    <div class="place-name">詩仙堂（圓光寺走路三分鐘） <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 一乘寺（文教區） ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點，人較少｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="詩仙堂（圓光寺走路三分鐘）"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 一乘寺（文教區） 一乘寺（文教區） 百年甜品店 甜點 nan nan" data-place-name="一乘寺（文教區）">
+    <div class="place-name">一乘寺（文教區） <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 一乘寺（文教區） ｜ 類型：甜點 ｜ 營業時間：nan</div>
+    <div class="place-meta">百年甜品店｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">甜點</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="一乘寺（文教區）"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>中之島</span></div>
+    <div>
+      <span class="area-tag">nan · 中之島</span>
+      <span class="area-count">10 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 中之島 大阪市中央公會堂 日本重要文化財 古蹟 nan nan" data-place-name="大阪市中央公會堂">
+    <div class="place-name">大阪市中央公會堂 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 中之島 ｜ 類型：古蹟 ｜ 營業時間：nan</div>
+    <div class="place-meta">日本重要文化財｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="大阪市中央公會堂"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 中之島 中之島圖書館 日本重要文化財 古蹟 nan nan" data-place-name="中之島圖書館">
+    <div class="place-name">中之島圖書館 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 中之島 ｜ 類型：古蹟 ｜ 營業時間：nan</div>
+    <div class="place-meta">日本重要文化財｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="中之島圖書館"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 中之島 國立國際美術館 全球少見的地下型美術館；館藏超過 8,200 件作品 逛逛 nan nan" data-place-name="國立國際美術館">
+    <div class="place-name">國立國際美術館 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 中之島 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">全球少見的地下型美術館；館藏超過 8,200 件作品｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="國立國際美術館"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 中之島 中之島美術館 大阪現代藝術新指標，建築獨特，2樓四周幾乎全採用落地玻璃帷幕，讓整體宛如漂浮著的漆黑盒子。 逛逛 nan nan" data-place-name="中之島美術館">
+    <div class="place-name">中之島美術館 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 中之島 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">大阪現代藝術新指標，建築獨特，2樓四周幾乎全採用落地玻璃帷幕，讓整體宛如漂浮著的漆黑盒子。｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="中之島美術館"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 中之島 GLITCH COFFEE OSAKA 亞洲頂尖咖啡名店，僅提供淺焙單品，可以隨時請咖啡師推薦適合你的口味 咖啡 nan nan" data-place-name="GLITCH COFFEE OSAKA">
+    <div class="place-name">GLITCH COFFEE OSAKA <span class="mini-hint">（咖啡店）</span></div>
+    <div class="place-meta">nan ｜ 中之島 ｜ 類型：咖啡 ｜ 營業時間：nan</div>
+    <div class="place-meta">亞洲頂尖咖啡名店，僅提供淺焙單品，可以隨時請咖啡師推薦適合你的口味｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">咖啡</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="GLITCH COFFEE OSAKA"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 中之島 graf 不只是咖啡廳，更是結合了室內設計的創意據點，由一群來自大阪在地、充滿熱情的建築師、設計師、職人與廚師等創作者共同經營。 咖啡, 逛逛, 購物 nan nan" data-place-name="graf">
+    <div class="place-name">graf <span class="mini-hint">（咖啡店）</span></div>
+    <div class="place-meta">nan ｜ 中之島 ｜ 類型：咖啡, 逛逛, 購物 ｜ 營業時間：nan</div>
+    <div class="place-meta">不只是咖啡廳，更是結合了室內設計的創意據點，由一群來自大阪在地、充滿熱情的建築師、設計師、職人與廚師等創作者共同經營。｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">咖啡, 逛逛, 購物</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="graf"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 中之島 smørrebrød KITCHEN nakanoshima 中之島圖書館內，北歐三明治專賣 咖啡, 餐廳 nan 先線上預約" data-place-name="smørrebrød KITCHEN nakanoshima">
+    <div class="place-name">smørrebrød KITCHEN nakanoshima <span class="mini-hint">（咖啡店）</span></div>
+    <div class="place-meta">nan ｜ 中之島 ｜ 類型：咖啡, 餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">中之島圖書館內，北歐三明治專賣｜注意：先線上預約</div>
+    <div class="place-tags"><span class="tag-chip">咖啡, 餐廳</span><span class="tag-chip">備註：先線上預約</span></div>
+    <div class="place-summary" data-summary-for="smørrebrød KITCHEN nakanoshima"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 中之島 SCHOOL BUS COFFEE STOP KITAHAMA 主打自家烘焙的「ORIGINAL BLEND」咖啡豆，和 flat white 咖啡 nan nan" data-place-name="SCHOOL BUS COFFEE STOP KITAHAMA">
+    <div class="place-name">SCHOOL BUS COFFEE STOP KITAHAMA <span class="mini-hint">（咖啡店）</span></div>
+    <div class="place-meta">nan ｜ 中之島 ｜ 類型：咖啡 ｜ 營業時間：nan</div>
+    <div class="place-meta">主打自家烘焙的「ORIGINAL BLEND」咖啡豆，和 flat white｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">咖啡</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="SCHOOL BUS COFFEE STOP KITAHAMA"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 中之島 日本銀行大阪分店舊館 與被列為重要文化財的「日本銀行本店」和「東京車站丸之內車站」建築同樣出自「日本近代建築之父」的辰野金吾之手。整體設計以比利時國立銀行等建築為原型，承襲了古典主義風格。 逛逛 nan nan" data-place-name="日本銀行大阪分店舊館">
+    <div class="place-name">日本銀行大阪分店舊館 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 中之島 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">與被列為重要文化財的「日本銀行本店」和「東京車站丸之內車站」建築同樣出自「日本近代建築之父」的辰野金吾之手。整體設計以比利時國立銀行等建築為原型，承襲了古典主義風格。｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="日本銀行大阪分店舊館"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 中之島 九州の旬 博多廊 大阪店 三井飯店內，九州博多料理，使用九州生產的當季食材製作道地的九州料理，賣點在於從九州各地收集來的地產酒類及燒酒。 餐廳 nan nan" data-place-name="九州の旬 博多廊 大阪店">
+    <div class="place-name">九州の旬 博多廊 大阪店 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 中之島 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">三井飯店內，九州博多料理，使用九州生產的當季食材製作道地的九州料理，賣點在於從九州各地收集來的地產酒類及燒酒。｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="九州の旬 博多廊 大阪店"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>中之島南邊</span></div>
+    <div>
+      <span class="area-tag">nan · 中之島南邊</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 中之島南邊 Takamura Wine &amp; Coffee Roasters Good coffee &amp; wine selection, spacious 咖啡 nan nan" data-place-name="Takamura Wine &amp; Coffee Roasters">
+    <div class="place-name">Takamura Wine &amp; Coffee Roasters <span class="mini-hint">（咖啡店）</span></div>
+    <div class="place-meta">nan ｜ 中之島南邊 ｜ 類型：咖啡 ｜ 營業時間：nan</div>
+    <div class="place-meta">Good coffee &amp; wine selection, spacious｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">咖啡</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="Takamura Wine &amp; Coffee Roasters"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>中崎町</span></div>
+    <div>
+      <span class="area-tag">nan · 中崎町</span>
+      <span class="area-count">2 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 中崎町 鰻魚Jin田 / 鰻甚田 開業超過100年的鰻魚料理名店 餐廳 nan nan" data-place-name="鰻魚Jin田 / 鰻甚田">
+    <div class="place-name">鰻魚Jin田 / 鰻甚田 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 中崎町 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">開業超過100年的鰻魚料理名店｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="鰻魚Jin田 / 鰻甚田"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 中崎町 文青區 （ONLY PLANET) 在二戰期間大阪招到大量的軍火攻擊有許多地方早就已經被炸毀，中崎町卻意外地保存下來沒有受到損害留下了很多傳統房屋，近期開始有人想要保存這塊土地的味道並把他發展起來才陸陸續續開了很多文青小店跟咖啡廳
+有很多選物小店之外，二手衣、古著店家 購物, 逛逛 nan nan" data-place-name="文青區 （ONLY PLANET)">
+    <div class="place-name">文青區 （ONLY PLANET) <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 中崎町 ｜ 類型：購物, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">在二戰期間大阪招到大量的軍火攻擊有許多地方早就已經被炸毀，中崎町卻意外地保存下來沒有受到損害留下了很多傳統房屋，近期開始有人想要保存這塊土地的味道並把他發展起來才陸陸續續開了很多文青小店跟咖啡廳
+有很多選物小店之外，二手衣、古著店家｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">購物, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="文青區 （ONLY PLANET)"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>二年坂</span></div>
+    <div>
+      <span class="area-tag">nan · 二年坂</span>
+      <span class="area-count">2 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 二年坂 日東堂 KYOTO COFFEE 文青工藝品、咖啡好喝 咖啡, 購物 nan nan" data-place-name="日東堂 KYOTO COFFEE">
+    <div class="place-name">日東堂 KYOTO COFFEE <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 二年坂 ｜ 類型：咖啡, 購物 ｜ 營業時間：nan</div>
+    <div class="place-meta">文青工藝品、咖啡好喝｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">咖啡, 購物</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="日東堂 KYOTO COFFEE"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 二年坂 二年坂（清水 -&gt; 法観寺路上） 看得到八板塔、星巴克是榻榻米的 咖啡, 逛逛 nan nan" data-place-name="二年坂（清水 -&gt; 法観寺路上）">
+    <div class="place-name">二年坂（清水 -&gt; 法観寺路上） <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 二年坂 ｜ 類型：咖啡, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">看得到八板塔、星巴克是榻榻米的｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">咖啡, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="二年坂（清水 -&gt; 法観寺路上）"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>今熊野泉山町</span></div>
+    <div>
+      <span class="area-tag">nan · 今熊野泉山町</span>
+      <span class="area-count">4 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 今熊野泉山町 泉涌寺 楓葉景點，人較少：秋季限定開放「御座所庭園」 古蹟, 逛逛 nan nan" data-place-name="泉涌寺">
+    <div class="place-name">泉涌寺 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 今熊野泉山町 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點，人較少：秋季限定開放「御座所庭園」｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="泉涌寺"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 今熊野泉山町 今熊野観音寺 楓葉景點；半山腰多寶塔 古蹟, 逛逛 nan nan" data-place-name="今熊野観音寺">
+    <div class="place-name">今熊野観音寺 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 今熊野泉山町 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點；半山腰多寶塔｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="今熊野観音寺"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 今熊野泉山町 雲龍院 四色禪意之窗、圓形頓悟之窗 古蹟, 逛逛 nan nan" data-place-name="雲龍院">
+    <div class="place-name">雲龍院 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 今熊野泉山町 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">四色禪意之窗、圓形頓悟之窗｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="雲龍院"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 今熊野泉山町 来迎院 含翆庭園 古蹟, 逛逛 nan nan" data-place-name="来迎院">
+    <div class="place-name">来迎院 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 今熊野泉山町 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">含翆庭園｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="来迎院"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>伏見稲荷神社</span></div>
+    <div>
+      <span class="area-tag">nan · 伏見稲荷神社</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 伏見稲荷神社 伏見稲荷大社 千本鳥居、樓門、本殿、奧之院輕重石 古蹟, 逛逛 nan nan" data-place-name="伏見稲荷大社">
+    <div class="place-name">伏見稲荷大社 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 伏見稲荷神社 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">千本鳥居、樓門、本殿、奧之院輕重石｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="伏見稲荷大社"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>南禪寺</span></div>
+    <div>
+      <span class="area-tag">nan · 南禪寺</span>
+      <span class="area-count">5 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 南禪寺 南禪寺 楓葉景點，人較少，可登高看楓葉 古蹟, 逛逛 nan nan" data-place-name="南禪寺">
+    <div class="place-name">南禪寺 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 南禪寺 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點，人較少，可登高看楓葉｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="南禪寺"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 南禪寺 blue bottle 京都第一家藍瓶咖啡，改建百年町屋 古蹟, 咖啡 nan nan" data-place-name="blue bottle">
+    <div class="place-name">blue bottle <span class="mini-hint">（咖啡店）</span></div>
+    <div class="place-meta">nan ｜ 南禪寺 ｜ 類型：古蹟, 咖啡 ｜ 營業時間：nan</div>
+    <div class="place-meta">京都第一家藍瓶咖啡，改建百年町屋｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 咖啡</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="blue bottle"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 南禪寺 天授庵 楓葉景點，和南禪寺感受不同 古蹟, 逛逛 nan nan" data-place-name="天授庵">
+    <div class="place-name">天授庵 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 南禪寺 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點，和南禪寺感受不同｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="天授庵"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 南禪寺 金地院 楓葉景點，和南禪寺感受不同 古蹟, 逛逛 nan nan" data-place-name="金地院">
+    <div class="place-name">金地院 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 南禪寺 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點，和南禪寺感受不同｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="金地院"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 南禪寺 青蓮院 相阿弥の庭；可登高看楓葉 古蹟, 逛逛 nan nan" data-place-name="青蓮院">
+    <div class="place-name">青蓮院 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 南禪寺 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">相阿弥の庭；可登高看楓葉｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="青蓮院"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>堂島</span></div>
+    <div>
+      <span class="area-tag">nan · 堂島</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 堂島 手打蕎麦 守破離 堂島店 蕎麥麵（原味、鴨肉湯）、天婦羅必點 餐廳 nan 先電話預約" data-place-name="手打蕎麦 守破離 堂島店">
+    <div class="place-name">手打蕎麦 守破離 堂島店 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 堂島 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">蕎麥麵（原味、鴨肉湯）、天婦羅必點｜注意：先電話預約</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：先電話預約</span></div>
+    <div class="place-summary" data-summary-for="手打蕎麦 守破離 堂島店"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>大国町</span></div>
+    <div>
+      <span class="area-tag">nan · 大国町</span>
+      <span class="area-count">7 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 大国町 木津卸売市場 晚上也有小店居酒屋、不定期週三休
+海鮮推薦：キ八海鮮、魚宗水產、121號「乾商店」
+142號「中尾水產」、109號「株式会社ヤマナカ」
+避雷：永田商店
+水果推薦：ヤマタ小林商店（不是隔壁kanese小林商店） 小吃攤, 逛逛 早上10點後陸續打烊 nan" data-place-name="木津卸売市場">
+    <div class="place-name">木津卸売市場 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 大国町 ｜ 類型：小吃攤, 逛逛 ｜ 營業時間：早上10點後陸續打烊</div>
+    <div class="place-meta">晚上也有小店居酒屋、不定期週三休
+海鮮推薦：キ八海鮮、魚宗水產、121號「乾商店」
+142號「中尾水產」、109號「株式会社ヤマナカ」
+避雷：永田商店
+水果推薦：ヤマタ小林商店（不是隔壁kanese小林商店）｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="木津卸売市場"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 大国町 木津魚市食堂 海膽海鮮丼飯、滿出來系列 小吃攤 nan nan" data-place-name="木津魚市食堂">
+    <div class="place-name">木津魚市食堂 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 大国町 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">海膽海鮮丼飯、滿出來系列｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="木津魚市食堂"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 大国町 木津壽司 まるよし 海鮮蓋飯、握壽司 小吃攤 nan nan" data-place-name="木津壽司 まるよし">
+    <div class="place-name">木津壽司 まるよし <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 大国町 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">海鮮蓋飯、握壽司｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="木津壽司 まるよし"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 大国町 木津 魚宗 魚宗水產的場外店，比較貴但不需要排隊 小吃攤 nan nan" data-place-name="木津 魚宗">
+    <div class="place-name">木津 魚宗 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 大国町 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">魚宗水產的場外店，比較貴但不需要排隊｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="木津 魚宗"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 大国町 木津橫丁 木津市場外的攤販匯集區 小吃攤 nan nan" data-place-name="木津橫丁">
+    <div class="place-name">木津橫丁 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 大国町 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">木津市場外的攤販匯集區｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="木津橫丁"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 大国町 超燙口章魚燒「あちち本舗」 （好像 temp closed) 小吃攤 nan nan" data-place-name="超燙口章魚燒「あちち本舗」">
+    <div class="place-name">超燙口章魚燒「あちち本舗」 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 大国町 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">（好像 temp closed)｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="超燙口章魚燒「あちち本舗」"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 大国町 川上商店 百年老店鰻魚飯 餐廳 nan nan" data-place-name="川上商店">
+    <div class="place-name">川上商店 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 大国町 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">百年老店鰻魚飯｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="川上商店"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>天王寺公園 / 難波</span></div>
+    <div>
+      <span class="area-tag">nan · 天王寺公園 / 難波</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 天王寺公園 / 難波 Yard Coffee 豆子、手沖 咖啡 nan 有分店" data-place-name="Yard Coffee">
+    <div class="place-name">Yard Coffee <span class="mini-hint">（咖啡店）</span></div>
+    <div class="place-meta">nan ｜ 天王寺公園 / 難波 ｜ 類型：咖啡 ｜ 營業時間：nan</div>
+    <div class="place-meta">豆子、手沖｜注意：有分店</div>
+    <div class="place-tags"><span class="tag-chip">咖啡</span><span class="tag-chip">備註：有分店</span></div>
+    <div class="place-summary" data-summary-for="Yard Coffee"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>嵐山</span></div>
+    <div>
+      <span class="area-tag">nan · 嵐山</span>
+      <span class="area-count">3 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 嵐山 小火車 nan 逛逛 nan 先預約" data-place-name="小火車">
+    <div class="place-name">小火車 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 嵐山 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：先預約</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：先預約</span></div>
+    <div class="place-summary" data-summary-for="小火車"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 嵐山 遊湖船 nan 逛逛 nan 先預約" data-place-name="遊湖船">
+    <div class="place-name">遊湖船 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 嵐山 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：先預約</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：先預約</span></div>
+    <div class="place-summary" data-summary-for="遊湖船"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 嵐山 中村屋総本店 好吃的可麗餅 小吃攤 nan nan" data-place-name="中村屋総本店">
+    <div class="place-name">中村屋総本店 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 嵐山 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">好吃的可麗餅｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="中村屋総本店"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>建仁寺</span></div>
+    <div>
+      <span class="area-tag">nan · 建仁寺</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 建仁寺 建仁寺 京都最古老禪宗寺廟，佔地遼闊，藝術性質高；「兩足院」可以自製御守 nan nan nan" data-place-name="建仁寺">
+    <div class="place-name">建仁寺 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 建仁寺 ｜ 類型：nan ｜ 營業時間：nan</div>
+    <div class="place-meta">京都最古老禪宗寺廟，佔地遼闊，藝術性質高；「兩足院」可以自製御守｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">nan</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="建仁寺"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>心斎橋</span></div>
+    <div>
+      <span class="area-tag">nan · 心斎橋</span>
+      <span class="area-count">5 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 心斎橋 Kushikatsu Agetenka 心斎橋の美味しい串カツあげてんかっ!本店 炸串專店◇佐以各種葡萄酒享用、蛋黃拌飯 居酒屋 nan 先預約 (KKday)" data-place-name="Kushikatsu Agetenka 心斎橋の美味しい串カツあげてんかっ!本店">
+    <div class="place-name">Kushikatsu Agetenka 心斎橋の美味しい串カツあげてんかっ!本店 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 心斎橋 ｜ 類型：居酒屋 ｜ 營業時間：nan</div>
+    <div class="place-meta">炸串專店◇佐以各種葡萄酒享用、蛋黃拌飯｜注意：先預約 (KKday)</div>
+    <div class="place-tags"><span class="tag-chip">居酒屋</span><span class="tag-chip">備註：先預約 (KKday)</span></div>
+    <div class="place-summary" data-summary-for="Kushikatsu Agetenka 心斎橋の美味しい串カツあげてんかっ!本店"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 心斎橋 忍鬨 YAKINIKUEN 日式燒肉（紫蘇葉和牛、蔥醬牛舌） 餐廳 nan 有分店" data-place-name="忍鬨 YAKINIKUEN">
+    <div class="place-name">忍鬨 YAKINIKUEN <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 心斎橋 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">日式燒肉（紫蘇葉和牛、蔥醬牛舌）｜注意：有分店</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：有分店</span></div>
+    <div class="place-summary" data-summary-for="忍鬨 YAKINIKUEN"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 心斎橋 赤坂富貴貫 鰻魚飯 四種套餐組合，當地人也很愛 餐廳 nan 先訂位" data-place-name="赤坂富貴貫 鰻魚飯">
+    <div class="place-name">赤坂富貴貫 鰻魚飯 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 心斎橋 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">四種套餐組合，當地人也很愛｜注意：先訂位</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：先訂位</span></div>
+    <div class="place-summary" data-summary-for="赤坂富貴貫 鰻魚飯"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 心斎橋 沾麵 雀 鹽拌麵、辣味拌麵 拉麵 nan nan" data-place-name="沾麵 雀">
+    <div class="place-name">沾麵 雀 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 心斎橋 ｜ 類型：拉麵 ｜ 營業時間：nan</div>
+    <div class="place-meta">鹽拌麵、辣味拌麵｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">拉麵</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="沾麵 雀"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 心斎橋 心斎橋筋 逛街購物區 逛逛 nan nan" data-place-name="心斎橋筋">
+    <div class="place-name">心斎橋筋 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 心斎橋 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">逛街購物區｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="心斎橋筋"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>扇町</span></div>
+    <div>
+      <span class="area-tag">nan · 扇町</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 扇町 天神橋筋商店街 全日本最長的商店街 逛逛 nan nan" data-place-name="天神橋筋商店街">
+    <div class="place-name">天神橋筋商店街 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 扇町 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">全日本最長的商店街｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="天神橋筋商店街"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>新世界</span></div>
+    <div>
+      <span class="area-tag">nan · 新世界</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 新世界 新世界 Shinsekai 商店、小神社、night life、日立鐵塔 逛逛 nan nan" data-place-name="新世界 Shinsekai">
+    <div class="place-name">新世界 Shinsekai <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 新世界 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">商店、小神社、night life、日立鐵塔｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="新世界 Shinsekai"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>永觀堂</span></div>
+    <div>
+      <span class="area-tag">nan · 永觀堂</span>
+      <span class="area-count">2 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 永觀堂 真正極楽寺 (真如堂) 楓葉景點，人較少 古蹟, 逛逛 nan nan" data-place-name="真正極楽寺 (真如堂)">
+    <div class="place-name">真正極楽寺 (真如堂) <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 永觀堂 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點，人較少｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="真正極楽寺 (真如堂)"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 永觀堂 永観堂 禅林寺 （真如堂走路 15分鐘） 楓葉景點，人較少：極樂喬＋放生池 古蹟, 逛逛 nan nan" data-place-name="永観堂 禅林寺 （真如堂走路 15分鐘）">
+    <div class="place-name">永観堂 禅林寺 （真如堂走路 15分鐘） <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 永觀堂 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">楓葉景點，人較少：極樂喬＋放生池｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="永観堂 禅林寺 （真如堂走路 15分鐘）"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>河原町</span></div>
+    <div>
+      <span class="area-tag">nan · 河原町</span>
+      <span class="area-count">3 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 河原町 河原町 商店街 很大一條好逛商店街、不像心齋橋擠，很多藥妝雜貨古著。一路走到底左轉可到 human made x blue bottle 逛逛, 購物 nan nan" data-place-name="河原町 商店街">
+    <div class="place-name">河原町 商店街 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 河原町 ｜ 類型：逛逛, 購物 ｜ 營業時間：nan</div>
+    <div class="place-meta">很大一條好逛商店街、不像心齋橋擠，很多藥妝雜貨古著。一路走到底左轉可到 human made x blue bottle｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛, 購物</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="河原町 商店街"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 河原町 human made x blue bottle 全日本第一家藍瓶 crossover 店家，有很多座位，偏現代明亮裝潢（想買限定杯！） 咖啡, 購物 nan nan" data-place-name="human made x blue bottle">
+    <div class="place-name">human made x blue bottle <span class="mini-hint">（咖啡店）</span></div>
+    <div class="place-meta">nan ｜ 河原町 ｜ 類型：咖啡, 購物 ｜ 營業時間：nan</div>
+    <div class="place-meta">全日本第一家藍瓶 crossover 店家，有很多座位，偏現代明亮裝潢（想買限定杯！）｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">咖啡, 購物</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="human made x blue bottle"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 河原町 本能寺 「敵人就在本能寺」的本能寺 逛逛 nan nan" data-place-name="本能寺">
+    <div class="place-name">本能寺 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 河原町 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">「敵人就在本能寺」的本能寺｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="本能寺"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>法観寺</span></div>
+    <div>
+      <span class="area-tag">nan · 法観寺</span>
+      <span class="area-count">3 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 法観寺 法観寺 Hōkan-ji Temple (Yasaka Pagoda) nan 古蹟 nan nan" data-place-name="法観寺 Hōkan-ji Temple (Yasaka Pagoda)">
+    <div class="place-name">法観寺 Hōkan-ji Temple (Yasaka Pagoda) <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 法観寺 ｜ 類型：古蹟 ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="法観寺 Hōkan-ji Temple (Yasaka Pagoda)"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 法観寺 八坂庚申堂 aka 金剛寺 七彩許願猴（一次只能買一個、許一個願望） 古蹟 nan nan" data-place-name="八坂庚申堂 aka 金剛寺">
+    <div class="place-name">八坂庚申堂 aka 金剛寺 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 法観寺 ｜ 類型：古蹟 ｜ 營業時間：nan</div>
+    <div class="place-meta">七彩許願猴（一次只能買一個、許一個願望）｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="八坂庚申堂 aka 金剛寺"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 法観寺 安井金比羅宮（緣切緣結碑） 斬斷惡緣或負能量 古蹟 nan nan" data-place-name="安井金比羅宮（緣切緣結碑）">
+    <div class="place-name">安井金比羅宮（緣切緣結碑） <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 法観寺 ｜ 類型：古蹟 ｜ 營業時間：nan</div>
+    <div class="place-meta">斬斷惡緣或負能量｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="安井金比羅宮（緣切緣結碑）"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>清水寺</span></div>
+    <div>
+      <span class="area-tag">nan · 清水寺</span>
+      <span class="area-count">5 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 清水寺 産寧坂 (三年坂) nan 逛逛 nan nan" data-place-name="産寧坂 (三年坂)">
+    <div class="place-name">産寧坂 (三年坂) <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 清水寺 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="産寧坂 (三年坂)"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 清水寺 優佳雅 Yojiya 藝伎 皂香小香水 購物 nan nan" data-place-name="優佳雅 Yojiya 藝伎">
+    <div class="place-name">優佳雅 Yojiya 藝伎 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 清水寺 ｜ 類型：購物 ｜ 營業時間：nan</div>
+    <div class="place-meta">皂香小香水｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">購物</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="優佳雅 Yojiya 藝伎"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 清水寺 七味家本舖 柚子胡椒鹽、各種七味粉 購物 nan nan" data-place-name="七味家本舖">
+    <div class="place-name">七味家本舖 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 清水寺 ｜ 類型：購物 ｜ 營業時間：nan</div>
+    <div class="place-meta">柚子胡椒鹽、各種七味粉｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">購物</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="七味家本舖"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 清水寺 伊藤軒/SOU・SOU 清水店 和菓子、蕨餅 小吃攤 nan nan" data-place-name="伊藤軒/SOU・SOU 清水店">
+    <div class="place-name">伊藤軒/SOU・SOU 清水店 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 清水寺 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">和菓子、蕨餅｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="伊藤軒/SOU・SOU 清水店"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 清水寺 音羽之瀧 （音羽の滝） 「長壽、健康、智慧」只能選一條來喝 逛逛 nan nan" data-place-name="音羽之瀧 （音羽の滝）">
+    <div class="place-name">音羽之瀧 （音羽の滝） <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 清水寺 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">「長壽、健康、智慧」只能選一條來喝｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="音羽之瀧 （音羽の滝）"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>祇園</span></div>
+    <div>
+      <span class="area-tag">nan · 祇園</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 祇園 Hanamikoji Street 花見小路通 古街，傍晚去可能看得到藝妓 古蹟, 逛逛 nan nan" data-place-name="Hanamikoji Street 花見小路通">
+    <div class="place-name">Hanamikoji Street 花見小路通 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 祇園 ｜ 類型：古蹟, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">古街，傍晚去可能看得到藝妓｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="Hanamikoji Street 花見小路通"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>虎屋町</span></div>
+    <div>
+      <span class="area-tag">nan · 虎屋町</span>
+      <span class="area-count">2 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 虎屋町 麺屋 優光 貝類醬油拉麵、鹽拉麵，入選「拉麵百名店」 餐廳 nan 座位不多但翻桌率高" data-place-name="麺屋 優光">
+    <div class="place-name">麺屋 優光 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 虎屋町 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">貝類醬油拉麵、鹽拉麵，入選「拉麵百名店」｜注意：座位不多但翻桌率高</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：座位不多但翻桌率高</span></div>
+    <div class="place-summary" data-summary-for="麺屋 優光"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 虎屋町 ShinPuhKan 新風館 百年建築＋現代設計 mall (le labo, traveler&#x27;s factory, globe specs, 1LDK) 購物, 逛逛 nan nan" data-place-name="ShinPuhKan 新風館">
+    <div class="place-name">ShinPuhKan 新風館 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 虎屋町 ｜ 類型：購物, 逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">百年建築＋現代設計 mall (le labo, traveler&#x27;s factory, globe specs, 1LDK)｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">購物, 逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="ShinPuhKan 新風館"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>谷町</span></div>
+    <div>
+      <span class="area-tag">nan · 谷町</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 谷町 焼肉屋大牧場 谷町店 和牛燒肉 ＣＰ值高 餐廳 nan 先線上預約" data-place-name="焼肉屋大牧場 谷町店">
+    <div class="place-name">焼肉屋大牧場 谷町店 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 谷町 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">和牛燒肉 ＣＰ值高｜注意：先線上預約</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：先線上預約</span></div>
+    <div class="place-summary" data-summary-for="焼肉屋大牧場 谷町店"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>近鉄日本橋</span></div>
+    <div>
+      <span class="area-tag">nan · 近鉄日本橋</span>
+      <span class="area-count">7 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 近鉄日本橋 Kuromon Market 黒門市場 菜市場，可吃各種海鮮（海膽、帝王蟹、干貝、生魚片） 逛逛, 小吃攤 nan nan" data-place-name="Kuromon Market 黒門市場">
+    <div class="place-name">Kuromon Market 黒門市場 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 近鉄日本橋 ｜ 類型：逛逛, 小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">菜市場，可吃各種海鮮（海膽、帝王蟹、干貝、生魚片）｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛, 小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="Kuromon Market 黒門市場"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 近鉄日本橋 黑門三平 生魚片餐盒ＣＰ值高 小吃攤 nan nan" data-place-name="黑門三平">
+    <div class="place-name">黑門三平 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 近鉄日本橋 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">生魚片餐盒ＣＰ值高｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="黑門三平"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 近鉄日本橋 黑門中川超市 超大超市，可買水果 小吃攤 nan nan" data-place-name="黑門中川超市">
+    <div class="place-name">黑門中川超市 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 近鉄日本橋 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">超大超市，可買水果｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="黑門中川超市"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 近鉄日本橋 三都屋 Mitoya 蕨餅、串燒菓子 小吃攤, 甜點 nan nan" data-place-name="三都屋 Mitoya">
+    <div class="place-name">三都屋 Mitoya <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 近鉄日本橋 ｜ 類型：小吃攤, 甜點 ｜ 營業時間：nan</div>
+    <div class="place-meta">蕨餅、串燒菓子｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤, 甜點</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="三都屋 Mitoya"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 近鉄日本橋 Uofuku 魚福 海膽、奶油扇貝超好吃 小吃攤 nan nan" data-place-name="Uofuku 魚福">
+    <div class="place-name">Uofuku 魚福 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 近鉄日本橋 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">海膽、奶油扇貝超好吃｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="Uofuku 魚福"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 近鉄日本橋 黑銀 黑鮪魚 小吃攤 nan nan" data-place-name="黑銀">
+    <div class="place-name">黑銀 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 近鉄日本橋 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">黑鮪魚｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="黑銀"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 近鉄日本橋 芳月堂 團子跟仙貝 甜點 nan nan" data-place-name="芳月堂">
+    <div class="place-name">芳月堂 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 近鉄日本橋 ｜ 類型：甜點 ｜ 營業時間：nan</div>
+    <div class="place-meta">團子跟仙貝｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">甜點</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="芳月堂"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>道頓堀</span></div>
+    <div>
+      <span class="area-tag">nan · 道頓堀</span>
+      <span class="area-count">7 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 道頓堀 元祖章魚燒あっちち ACCHICHI本舖 麵糊裡加高湯、不使用冷凍章魚 小吃攤 nan nan" data-place-name="元祖章魚燒あっちち ACCHICHI本舖">
+    <div class="place-name">元祖章魚燒あっちち ACCHICHI本舖 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 道頓堀 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">麵糊裡加高湯、不使用冷凍章魚｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="元祖章魚燒あっちち ACCHICHI本舖"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 道頓堀 味噌四天王拉麵 nan 餐廳 nan nan" data-place-name="味噌四天王拉麵">
+    <div class="place-name">味噌四天王拉麵 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 道頓堀 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="味噌四天王拉麵"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 道頓堀 金久右衛門拉麵 tabelog「大阪最強拉麵」比賽，連續3年奪冠軍超級狂。最受歡迎4號「大阪黑」，湯頭濃厚回甘順口，也是眾人推薦的大阪拉麵 餐廳 nan nan" data-place-name="金久右衛門拉麵">
+    <div class="place-name">金久右衛門拉麵 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 道頓堀 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">tabelog「大阪最強拉麵」比賽，連續3年奪冠軍超級狂。最受歡迎4號「大阪黑」，湯頭濃厚回甘順口，也是眾人推薦的大阪拉麵｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="金久右衛門拉麵"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 道頓堀 烏龍麵、蕎麥麵 道頓堀今井 本店 必點鍋燒烏龍麵 餐廳 nan nan" data-place-name="烏龍麵、蕎麥麵 道頓堀今井 本店">
+    <div class="place-name">烏龍麵、蕎麥麵 道頓堀今井 本店 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 道頓堀 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">必點鍋燒烏龍麵｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="烏龍麵、蕎麥麵 道頓堀今井 本店"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 道頓堀 Hozenji Yamakazu 鰻魚店 nan 餐廳 nan 先線上預約" data-place-name="Hozenji Yamakazu 鰻魚店">
+    <div class="place-name">Hozenji Yamakazu 鰻魚店 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 道頓堀 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：先線上預約</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：先線上預約</span></div>
+    <div class="place-summary" data-summary-for="Hozenji Yamakazu 鰻魚店"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 道頓堀 焼肉屋 大牧場 道頓堀店 和牛燒肉 ＣＰ值高 餐廳 nan 先線上預約" data-place-name="焼肉屋 大牧場 道頓堀店">
+    <div class="place-name">焼肉屋 大牧場 道頓堀店 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 道頓堀 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">和牛燒肉 ＣＰ值高｜注意：先線上預約</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：先線上預約</span></div>
+    <div class="place-summary" data-summary-for="焼肉屋 大牧場 道頓堀店"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 道頓堀 法善寺橫丁 法善寺 水掛不動尊 逛逛 nan nan" data-place-name="法善寺橫丁">
+    <div class="place-name">法善寺橫丁 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 道頓堀 ｜ 類型：逛逛 ｜ 營業時間：nan</div>
+    <div class="place-meta">法善寺 水掛不動尊｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">逛逛</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="法善寺橫丁"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>道頓堀、難波</span></div>
+    <div>
+      <span class="area-tag">nan · 道頓堀、難波</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 道頓堀、難波 道頓堀肉劇場 nan 餐廳 nan nan" data-place-name="道頓堀肉劇場">
+    <div class="place-name">道頓堀肉劇場 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 道頓堀、難波 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">nan｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="道頓堀肉劇場"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>難波</span></div>
+    <div>
+      <span class="area-tag">nan · 難波</span>
+      <span class="area-count">4 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan 難波 Namba Yasaka Jinja 難波八阪神社 大獅子頭 古蹟 nan nan" data-place-name="Namba Yasaka Jinja 難波八阪神社">
+    <div class="place-name">Namba Yasaka Jinja 難波八阪神社 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">nan ｜ 難波 ｜ 類型：古蹟 ｜ 營業時間：nan</div>
+    <div class="place-meta">大獅子頭｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="Namba Yasaka Jinja 難波八阪神社"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 難波 Tempurayasan てんぷらやさん 淋上親子丼醬汁的天婦羅蓋飯 小吃攤 nan nan" data-place-name="Tempurayasan てんぷらやさん">
+    <div class="place-name">Tempurayasan てんぷらやさん <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 難波 ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">淋上親子丼醬汁的天婦羅蓋飯｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="Tempurayasan てんぷらやさん"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 難波 Orange Street boutiques &amp; shops 購物 nan nan" data-place-name="Orange Street">
+    <div class="place-name">Orange Street <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ 難波 ｜ 類型：購物 ｜ 營業時間：nan</div>
+    <div class="place-meta">boutiques &amp; shops｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">購物</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="Orange Street"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan 難波 蟹道樂 螃蟹壽喜燒、蟹肉刺身、烤螃蟹 餐廳 nan nan" data-place-name="蟹道樂">
+    <div class="place-name">蟹道樂 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ 難波 ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">螃蟹壽喜燒、蟹肉刺身、烤螃蟹｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="蟹道樂"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>（很多分店）</span></div>
+    <div>
+      <span class="area-tag">nan · （很多分店）</span>
+      <span class="area-count">4 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="nan （很多分店） 串炸達摩 人很多 各種炸串 秘製醬汁 小吃攤 nan nan" data-place-name="串炸達摩">
+    <div class="place-name">串炸達摩 <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ （很多分店） ｜ 類型：小吃攤 ｜ 營業時間：nan</div>
+    <div class="place-meta">人很多 各種炸串 秘製醬汁｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">小吃攤</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="串炸達摩"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan （很多分店） 磯丸水産 海鮮熱炒店 餐廳 nan 可Klook預訂" data-place-name="磯丸水産">
+    <div class="place-name">磯丸水産 <span class="mini-hint">（餐廳）</span></div>
+    <div class="place-meta">nan ｜ （很多分店） ｜ 類型：餐廳 ｜ 營業時間：nan</div>
+    <div class="place-meta">海鮮熱炒店｜注意：可Klook預訂</div>
+    <div class="place-tags"><span class="tag-chip">餐廳</span><span class="tag-chip">備註：可Klook預訂</span></div>
+    <div class="place-summary" data-summary-for="磯丸水産"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan （很多分店） HARBS 雖然不是大阪美食 一起去吃水果蛋糕吧 甜點 nan nan" data-place-name="HARBS">
+    <div class="place-name">HARBS <span class="mini-hint"></span></div>
+    <div class="place-meta">nan ｜ （很多分店） ｜ 類型：甜點 ｜ 營業時間：nan</div>
+    <div class="place-meta">雖然不是大阪美食 一起去吃水果蛋糕吧｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">甜點</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="HARBS"><em>載入簡介中…</em></div>
+  </div>
+  <div class="place-card" data-search="nan （很多分店） MONDIAL KAFFEE 拉花冠軍開的名店 咖啡 nan nan" data-place-name="MONDIAL KAFFEE">
+    <div class="place-name">MONDIAL KAFFEE <span class="mini-hint">（咖啡店）</span></div>
+    <div class="place-meta">nan ｜ （很多分店） ｜ 類型：咖啡 ｜ 營業時間：nan</div>
+    <div class="place-meta">拉花冠軍開的名店｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">咖啡</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="MONDIAL KAFFEE"><em>載入簡介中…</em></div>
+  </div>
+</div>
+
+<div class="area-block">
+  <div class="area-header">
+    <div class="area-name"><span>📍</span><span>清水寺</span></div>
+    <div>
+      <span class="area-tag">京都 · 清水寺</span>
+      <span class="area-count">1 個地點</span>
+    </div>
+  </div>
+  
+  <div class="place-card" data-search="京都 清水寺 清水寺 從清水舞台看向本殿是最美的；隨求樓鈴（獨賣） 古蹟 nan nan" data-place-name="清水寺">
+    <div class="place-name">清水寺 <span class="mini-hint">（歷史景點）</span></div>
+    <div class="place-meta">京都 ｜ 清水寺 ｜ 類型：古蹟 ｜ 營業時間：nan</div>
+    <div class="place-meta">從清水舞台看向本殿是最美的；隨求樓鈴（獨賣）｜注意：nan</div>
+    <div class="place-tags"><span class="tag-chip">古蹟</span><span class="tag-chip">備註：nan</span></div>
+    <div class="place-summary" data-summary-for="清水寺"><em>載入簡介中…</em></div>
+  </div>
+</div></div>
+<div class="no-result" id="noResult" style="display:none;">找不到符合關鍵字的景點／餐廳，可以試試只輸入「地區」或「類型」（例如：梅田、咖啡、居酒屋）。</div>
+</section>
+
+<section id="section-coupons" class="section" data-section="coupons" style="display:none;" aria-label="購物優惠卷">
+<div class="section-header">
+<div>
+<div class="section-title"><span class="emoji">🧾</span><span>購物優惠卷</span></div>
+<div class="section-caption">常用優惠券集合，可先保存到手機；下方四宮格是常見店家，點「開啟資料夾」看所有券。</div>
+</div>
+</div>
+<div class="coupon-grid">
+  <div class="coupon-card">
+    <div class="coupon-thumb">💊</div>
+    <div class="coupon-body">
+      <div class="coupon-title">大國藥妝</div>
+      <div class="coupon-desc">旅客常用藥妝店，時常有滿額折扣或免稅加碼。</div>
+      <a class="coupon-link" target="_blank" href="https://drive.google.com/drive/folders/1KfclLMhT1DIezSKgG3-Z1nPwOqJA2W-p" rel="noopener">開啟資料夾</a>
+    </div>
+  </div>
+  <div class="coupon-card">
+    <div class="coupon-thumb">🧴</div>
+    <div class="coupon-body">
+      <div class="coupon-title">松本清</div>
+      <div class="coupon-desc">美妝保養選擇多，常見 5%～10% 折扣券搭配免稅。</div>
+      <a class="coupon-link" target="_blank" href="https://drive.google.com/drive/folders/1KfclLMhT1DIezSKgG3-Z1nPwOqJA2W-p" rel="noopener">開啟資料夾</a>
+    </div>
+  </div>
+  <div class="coupon-card">
+    <div class="coupon-thumb">🧳</div>
+    <div class="coupon-body">
+      <div class="coupon-title">唐吉訶德</div>
+      <div class="coupon-desc">24 小時大型雜貨店，零食電器齊全，常見滿額折抵。</div>
+      <a class="coupon-link" target="_blank" href="https://drive.google.com/drive/folders/1KfclLMhT1DIezSKgG3-Z1nPwOqJA2W-p" rel="noopener">開啟資料夾</a>
+    </div>
+  </div>
+  <div class="coupon-card">
+    <div class="coupon-thumb">🛍️</div>
+    <div class="coupon-body">
+      <div class="coupon-title">阪急百貨</div>
+      <div class="coupon-desc">關西代表性百貨，外國旅客折扣券搭配免稅划算。</div>
+      <a class="coupon-link" target="_blank" href="https://drive.google.com/drive/folders/1KfclLMhT1DIezSKgG3-Z1nPwOqJA2W-p" rel="noopener">開啟資料夾</a>
+    </div>
+  </div>
+</div>
+</section>
+</div>
+
+<aside class="side-note" aria-label="使用小提醒">
+<div class="side-note-title">✨ 使用小提醒</div>
+<ul class="side-note-list">
+<li>用手機觀看時，建議橫向或調整字體大小，閱讀更清楚。</li>
+<li>建議先看「依日期查看行程」，再依需要切換「依地區」或「購物優惠卷」。</li>
+<li>若之後有新增景點或折扣券，可以再更新 GitHub Pages 的這個檔案。</li>
+</ul>
+</aside>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const sections = document.querySelectorAll('[data-section]');
+    function showTab(tab) {
+        sections.forEach(sec => { sec.style.display = (sec.getAttribute('data-section') === tab) ? '' : 'none'; });
+        tabButtons.forEach(b => {
+            const active = b.getAttribute('data-tab') === tab;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+    }
+    tabButtons.forEach(btn => { btn.addEventListener('click', () => showTab(btn.getAttribute('data-tab'))); });
+
+    // Day expand/collapse
+    const dayCards = document.querySelectorAll('.day-card');
+    dayCards.forEach(card => {
+        const header = card.querySelector('.day-header');
+        header.addEventListener('click', () => {
+            const expanded = card.classList.contains('expanded');
+            dayCards.forEach(c => c.classList.remove('expanded'));
+            if (!expanded) { card.classList.add('expanded'); card.scrollIntoView({behavior:'smooth', block:'center'}); }
+        });
+        header.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); header.click(); } });
+    });
+
+    // Area search
+    const areaList = document.getElementById('areaList');
+    const keywordInput = document.getElementById('keywordInput');
+    const noResult = document.getElementById('noResult');
+    const searchWrapper = document.getElementById('search-wrapper');
+    const clearBtn = searchWrapper ? searchWrapper.querySelector('.clear-btn') : null;
+    function applySearch() {
+        if (!areaList) return;
+        const q = (keywordInput?.value || '').trim();
+        if (searchWrapper) searchWrapper.classList.toggle('has-text', q.length > 0);
+        let anyVisible = false;
+        const areaBlocks = areaList.querySelectorAll('.area-block');
+        areaBlocks.forEach(area => {
+            let areaVisible = false;
+            const places = area.querySelectorAll('.place-card');
+            places.forEach(place => {
+                const text = place.getAttribute('data-search') || '';
+                if (!q || text.indexOf(q) !== -1) {
+                    place.style.display = '';
+                    areaVisible = true;
+                    anyVisible = true;
+                } else { place.style.display = 'none'; }
+            });
+            area.style.display = areaVisible ? '' : 'none';
+        });
+        if (noResult) noResult.style.display = anyVisible ? 'none' : '';
+    }
+    if (keywordInput) keywordInput.addEventListener('input', applySearch);
+    if (clearBtn) clearBtn.addEventListener('click', () => { keywordInput.value=''; applySearch(); keywordInput.focus(); });
+
+    // Wikipedia summary fetcher with robust fallback
+    function tryFetchSummary(title, lang) {
+        const url = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+        return fetch(url).then(r => r.ok ? r.json() : null).catch(() => null);
+    }
+    function isAttraction(name) { return /(寺|神社|大社|城|塔|堂|宮|寺院)/.test(name); }
+    async function hydrateSummaries() {
+        const targets = document.querySelectorAll('[data-summary-for]');
+        for (const el of targets) {
+            const name = el.getAttribute('data-summary-for');
+            if (!name || el.getAttribute('data-filled') === '1') continue;
+
+            // Set a timeout fallback (6s) to avoid '載入簡介中…' sticking forever
+            let resolved = false;
+            const timer = setTimeout(() => {
+                if (!resolved) {
+                    el.innerHTML = '<strong>簡介：</strong>（暫時無法取得，建議以頁面上「特色」為主，或稍後再試）';
+                    el.setAttribute('data-filled', '1');
+                }
+            }, 6000);
+
+            let extract = '';
+            for (const L of ['zh','ja','en']) {
+                const data = await tryFetchSummary(name, L);
+                if (data && data.extract) { extract = data.extract; break; }
+            }
+            let summaryText = '';
+            if (extract) {
+                if (isAttraction(name)) {
+                    summaryText = '重點：' + extract.split('。').slice(0,2).join('。') + '。';
+                } else {
+                    summaryText = extract.split(/[。.!?]/).slice(0,2).join('。') + '。';
+                }
+            }
+            if (summaryText) el.innerHTML = '<strong>簡介：</strong>' + summaryText;
+            else {
+                // If still not filled by timeout, provide a graceful fallback now
+                el.innerHTML = '<strong>簡介：</strong>（尚無資料，可用上方搜尋框改用其他關鍵字）';
+            }
+            el.setAttribute('data-filled', '1');
+            resolved = true;
+            clearTimeout(timer);
+        }
+    }
+    hydrateSummaries();
+
+    // Defaults
+    if (dayCards.length > 0) dayCards[0].classList.add('expanded');
+    showTab('by-day');
+});
+</script>
+
+</div>
+</body>
+</html>
